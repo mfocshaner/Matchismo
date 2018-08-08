@@ -66,6 +66,7 @@ static const int COST_TO_CHOOSE = 1;
   
   NSString *retString = @"";
   int numChosen = 1;
+  BOOL foundMatch = NO;
   // match against other chosen cards
   for (Card *otherCard in self.cards){
     if (otherCard.isChosen && !otherCard.isMatched){
@@ -76,14 +77,14 @@ static const int COST_TO_CHOOSE = 1;
         card.matched = YES;
         [self matchAllChosen];
         retString = [NSString stringWithFormat:@"%@%@ match! hooray!", card.contents, otherCard.contents];
-        // [self unchooseAllCards];
+        foundMatch = YES;
       } else {
         self.score -= MISMATCH_PENALTY;
         retString = [NSString stringWithFormat:@"%@%@ don't match!", card.contents, otherCard.contents];
       }
       if (numChosen == _gameMode){ // found max num of chosen allowed
         [self unchooseAllCards];
-        if (numChosen > 2) { // can't show more than 2 that don't match
+        if (numChosen > 2 && !foundMatch) { // can't show more than 2 that don't match
         retString = [NSString stringWithFormat:@"nothing matched :(!"];
         }
         break;

@@ -6,8 +6,7 @@
 //  Copyright © 2018 Michael Focshaner. All rights reserved.
 //
 
-#import "ViewController.h"
-#import "PlayingCardDeck.h"
+#import "ViewController.h" 
 #import "CardMatchingGame.h"
 
 @interface ViewController ()
@@ -89,7 +88,7 @@ static int gameMode = DEFAULT_MODE;
 
 
 - (Deck *)createDeck{
-    return [[PlayingCardDeck alloc] init];
+  return nil; //abstract!
 }
 
 
