@@ -12,7 +12,11 @@
 
 - (NSString *)contents
 {
-    return nil;
+    NSString *tempString = @"";
+    for (int i = 0; i < self.number; i++) {
+        tempString = [tempString stringByAppendingString:self.symbol];
+    }
+    return tempString;
 }
 
 @synthesize symbol = _symbol;
@@ -22,8 +26,7 @@
     return @[@"▲", @"●", @"■"];
 }
 
-- (void)setSymbol:(NSString *)symbol
-{
+- (void)setSymbol:(NSString *)symbol{
     if ([[SetCard validSymbols] containsObject:symbol]){
         _symbol = symbol;
     }
@@ -34,42 +37,61 @@
     return _symbol ? _symbol : @"?";
 }
 
-+ (NSArray *)rankStrings
++ (NSArray *)numberStrings
 {
     return @[@"?", @"1", @"2", @"3"];
 }
 
 + (NSUInteger)maxNumber {
-    return [[self rankStrings] count]-1;
+    return [[self numberStrings] count]-1;
 }
 
-- (void)setNumber:(NSUInteger)number:(NSUInteger)number
+- (void)setNumber:(NSUInteger)number
 {
     if (number <= [SetCard maxNumber]){
         _number = number;
     }
 }
 
-
-
-- (int)match:(NSArray *)otherCards
++ (NSArray *)validShadings
 {
+    return @[@"solid", @"striped", @"open"];
+}
+
+
+- (void)setShading:(NSString *)shading{
+    if ([[SetCard validShadings] containsObject:shading]){
+        _shading = shading;
+    }
+}
+
+- (int)match:(NSArray *)otherCards{
     int score = 0;
     
     if (otherCards.count == 2){
-        BOOL match = NO;
-        for (SetCard otherCard in otherCards) {
+        if ([self match:@[self, otherCards[0], otherCards[1]] byProperty:@"symbol"]
+            && [self match:@[self, otherCards[0], otherCards[1]] byProperty:@"shading"]
+            && [self match:@[self, otherCards[0], otherCards[1]] byProperty:@"number"]){
             
-            match = (otherCard.number != this.number);
-        }
-        SetCard *otherCard = [otherCards firstObject]; // may be null!
-        if (otherCard.number == self.number){
-            score = 4;
-        } else if ([otherCard.symbol isEqualToString:self.symbol]){
-            score = 1;
+            score = 3;
         }
     }
     return score;
+}
+        
+- (BOOL)match:(NSArray *)cards byProperty:(NSString*)property{
+    if (cards.count != 3) {
+        return NO;
+    }
+    BOOL allSame = [(SetCard*)cards[0] valueForKey:property] == [(SetCard*)cards[1] valueForKey:property];
+    BOOL allDifferent = !allSame;
+    
+    allSame = allSame && ([(SetCard*)cards[1] valueForKey:property] == [(SetCard*)cards[2] valueForKey:property]);
+    
+    allDifferent = allDifferent && ([(SetCard*)cards[1] valueForKey:property] != [(SetCard*)cards[2] valueForKey:property]);
+    allDifferent = allDifferent && ([(SetCard*)cards[0] valueForKey:property] != [(SetCard*)cards[2] valueForKey:property]);
+    
+    return allSame || allDifferent;
 }
 
 @end
