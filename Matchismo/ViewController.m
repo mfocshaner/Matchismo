@@ -54,6 +54,7 @@ static int gameMode = DEFAULT_MODE;
   NSUInteger chosenButtonIndex = [self.cardButtons indexOfObject:sender];
   NSString *outputString = [self.game chooseCardAtIndex:chosenButtonIndex];
   self.resultLabel.text = [NSString stringWithFormat:@"Result: %@", outputString];
+
   self.modeButton.enabled = NO;
   [self updateUI];
 }

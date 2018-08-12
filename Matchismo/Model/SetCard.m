@@ -7,16 +7,46 @@
 //
 
 #import "SetCard.h"
+#import <UIKit/UIKit.h>
 
 @implementation SetCard
 
-- (NSString *)contents
+- (NSString *)nonAttributedContents
 {
     NSString *tempString = @"";
     for (int i = 0; i < self.number; i++) {
         tempString = [tempString stringByAppendingString:self.symbol];
     }
     return tempString;
+}
+
+- (NSAttributedString *)contents {
+    NSDictionary<NSString *, UIColor *> *colorsByName = @{
+                                                          @"red": UIColor.redColor,
+                                                          @"green": UIColor.greenColor,
+                                                          @"purple": UIColor.purpleColor
+                                                          };
+    NSDictionary<NSString *,NSNumber *> *alphaForShading = @{
+                                                             @"solid": @1.0f,
+                                                             @"striped": @0.4f,
+                                                             @"open": @0.0f
+                                                             };
+    
+    UIColor * colorAttribute = colorsByName[self.color];
+    CGFloat alphaValue = alphaForShading[self.shading].floatValue;
+    UIColor * colorAttributeWithAlpha = [colorAttribute colorWithAlphaComponent:alphaValue];
+    
+    NSNumber* strokeWidth = @-0.1f;
+    if ([self.shading  isEqual: @"open"]){
+        strokeWidth = @-6.0f;
+    }
+    
+    
+    NSDictionary <NSAttributedStringKey, id> *attributes = @{NSForegroundColorAttributeName:colorAttributeWithAlpha,                                                          NSStrokeWidthAttributeName:strokeWidth,                                                           NSStrokeColorAttributeName:colorAttribute,                                                                                                          };
+    
+    NSAttributedString * string = [[NSAttributedString alloc] initWithString:[self nonAttributedContents] attributes:attributes];
+    
+    return string;
 }
 
 @synthesize symbol = _symbol;
@@ -73,7 +103,7 @@
 - (int)match:(NSArray *)otherCards{
     int score = 0;
     
-    if (otherCards.count == 2){
+    if (otherCards.count == 3){
         if ([self match:@[self, otherCards[0], otherCards[1]] byProperty:@"symbol"]
             && [self match:@[self, otherCards[0], otherCards[1]] byProperty:@"shading"]
             && [self match:@[self, otherCards[0], otherCards[1]] byProperty:@"number"]
