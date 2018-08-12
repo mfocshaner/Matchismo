@@ -7,7 +7,10 @@
 //
 
 #import "ViewController.h"
+#import "SetGame.h"
 
 @interface SetViewController : ViewController
+
+// @property (strong, nonatomic) SetGame *setGame;
 
 @end

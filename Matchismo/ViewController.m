@@ -7,19 +7,11 @@
 //
 
 #import "ViewController.h" 
-#import "CardMatchingGame.h"
+
 
 @interface ViewController ()
 
-@property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 
-@property (strong, nonatomic) IBOutlet UIButton *startNewGameButton;
-@property (strong, nonatomic) IBOutlet UISegmentedControl *modeButton;
-
-@property (strong, nonatomic) IBOutlet UILabel *resultLabel;
-@property (weak, nonatomic) IBOutlet UILabel *scorelabel;
-
-@property (strong, nonatomic) CardMatchingGame *game;
 @end
 
 
@@ -37,7 +29,7 @@ static int gameMode = DEFAULT_MODE;
 - (IBAction)touchStartNewGameButton:(UIButton *)sender {
     [self resetGame];
     self.modeButton.enabled = YES;
-    NSLog(@"%@", [NSString stringWithFormat:@"Mode: %d", gameMode]);
+    // NSLog(@"%@", [NSString stringWithFormat:@"Mode: %d", gameMode]);
     [self updateUI];
 }
 

@@ -27,6 +27,7 @@
                                  usingDeck:(Deck *)deck
                              usingGameMode:(NSUInteger)gameModeArg {
   if (self = [super init]){
+    _cards = [[NSMutableArray<Card *> alloc] init];
     for (int i = 0; i < count; i++) {
       Card *card = [deck drawRandomCard];
       if (card) {

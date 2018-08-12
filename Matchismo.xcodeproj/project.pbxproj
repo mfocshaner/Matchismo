@@ -78,7 +78,7 @@
 		F4B83A57211C24E90005DCCE /* PlayingCardViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayingCardViewController.h; sourceTree = "<group>"; };
 		F4B83A58211C24E90005DCCE /* PlayingCardViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlayingCardViewController.m; sourceTree = "<group>"; };
 		F4B83A5A211C27E50005DCCE /* SetViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SetViewController.h; sourceTree = "<group>"; };
-		F4B83A5B211C27E50005DCCE /* SetViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SetViewController.m; sourceTree = "<group>"; };
+		F4B83A5B211C27E50005DCCE /* SetViewController.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = SetViewController.m; sourceTree = "<group>"; tabWidth = 2; };
 		F4B83A5D211C4B560005DCCE /* SetGame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SetGame.h; path = Matchismo/Model/SetGame.h; sourceTree = SOURCE_ROOT; };
 		F4B83A5E211C4B560005DCCE /* SetGame.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SetGame.m; path = Matchismo/Model/SetGame.m; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */

@@ -47,18 +47,6 @@
                                     <action selector="touchStartNewGameButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dbJ-CO-Dum"/>
                                 </connections>
                             </button>
-                            <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="qZf-c7-OOE">
-                                <rect key="frame" x="20" y="654" width="150" height="29"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <segments>
-                                    <segment title="2-match"/>
-                                    <segment title="3-match"/>
-                                </segments>
-                                <color key="tintColor" red="0.085577733814716339" green="0.21601095795631409" blue="0.44676065444946289" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <connections>
-                                    <action selector="modeChange:" destination="BYZ-38-t0r" eventType="valueChanged" id="dzT-BQ-WLP"/>
-                                </connections>
-                            </segmentedControl>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Result:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KpQ-3g-ngn">
                                 <rect key="frame" x="20" y="616" width="356" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -390,7 +378,6 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="modeButton" destination="qZf-c7-OOE" id="WmD-lL-7ci"/>
                         <outlet property="resultLabel" destination="KpQ-3g-ngn" id="LZQ-86-wlW"/>
                         <outlet property="scorelabel" destination="Loc-2a-3N6" id="TJa-Is-QEI"/>
                         <outlet property="startNewGameButton" destination="oa5-7x-xgb" id="buc-b5-8PM"/>
@@ -582,11 +569,38 @@
                                     <action selector="touchCardButton:" destination="Zrd-oP-a8r" eventType="touchUpInside" id="qPs-dN-r3V"/>
                                 </connections>
                             </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Score: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pXY-6B-TDR">
+                                <rect key="frame" x="20" y="695" width="374" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LEz-ly-0oR">
+                                <rect key="frame" x="340" y="648" width="54" height="39"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="18"/>
+                                <state key="normal" title="NEW" backgroundImage="cardfront">
+                                    <color key="titleColor" red="0.58105844259999995" green="0.12855249639999999" blue="0.57453137639999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="touchStartNewGameButton:" destination="Zrd-oP-a8r" eventType="touchUpInside" id="Tzu-ZY-Uxh"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Result:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Yfv-EK-hta">
+                                <rect key="frame" x="20" y="616" width="356" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.56284224989999998" blue="0.31881666180000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="AJS-GE-JVM"/>
                     </view>
                     <connections>
+                        <outlet property="resultLabel" destination="Yfv-EK-hta" id="TcG-Vm-Vaz"/>
+                        <outlet property="scorelabel" destination="pXY-6B-TDR" id="SiL-EX-n2H"/>
                         <outletCollection property="cardButtons" destination="7OT-ji-ht5" id="C1M-wb-CsO"/>
                         <outletCollection property="cardButtons" destination="j81-mu-jwP" id="K83-vt-UCu"/>
                         <outletCollection property="cardButtons" destination="J6y-ZR-zn4" id="EKk-iO-W1W"/>
@@ -603,7 +617,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wba-HZ-ODD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="856.52173913043487" y="55.434782608695656"/>
+            <point key="canvasLocation" x="819" y="24"/>
         </scene>
     </scenes>
     <resources>

@@ -12,8 +12,8 @@
 
 @interface SetGame()
 @property (nonatomic, readwrite) NSInteger score;
-@property (nonatomic, strong) NSMutableArray<Card *> *cards;
-@property (nonatomic) NSUInteger gameMode;
+
+@property (nonatomic, strong) NSMutableArray <Card*> *chosenCards;
 
 @end
 
@@ -23,7 +23,13 @@
 static const int MISMATCH_PENALTY = 2;
 static const int MATCH_BONUS = 4;
 static const int COST_TO_CHOOSE = 1;
-NSMutableArray <Card*> *chosenCards;
+
+
+- (NSMutableArray *)chosenCards{
+    if (!_chosenCards) _chosenCards = [[NSMutableArray<Card *> alloc] init];
+    return _chosenCards;
+}
+
 
 - (NSString *)chooseCardAtIndex:(NSUInteger)index {
     Card *card = [self cardAtIndex:index];
@@ -33,26 +39,28 @@ NSMutableArray <Card*> *chosenCards;
     
     if (card.isChosen){
         card.chosen = NO;
-        [chosenCards removeObject:card];
+        [self.chosenCards removeObject:card];
         return @"";
     }
     card.chosen = YES;
-    [chosenCards addObject:card];
+    [self.chosenCards addObject:card];
     
-    if (chosenCards.count < 3) {
+    if (self.chosenCards.count < 3) {
         return @"";
     }
 
-    NSString *retString = @"";
-    BOOL foundMatch = [card match:chosenCards];
-    for (Card* card in chosenCards) {
-        // add something here? don't know
+    // NSString *retString = @"";
+    BOOL foundMatch = [card match:self.chosenCards];
+    if (foundMatch) {
+        [self matchAllChosen];
+        self.score += MATCH_BONUS;
+        return @"Set found, nice job!"; // should do something more informative
     }
     
-    // match against other chosen cards
     self.score -= COST_TO_CHOOSE;
-    card.chosen = YES;
-    return retString;
+    [self unchooseAllCards];
+    [self.chosenCards removeAllObjects];
+    return @"Not a set!";
 }
 
 @end

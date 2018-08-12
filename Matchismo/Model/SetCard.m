@@ -26,6 +26,11 @@
     return @[@"▲", @"●", @"■"];
 }
 
++ (NSArray *)validColors
+{
+    return @[@"purple", @"green", @"red"];
+}
+
 - (void)setSymbol:(NSString *)symbol{
     if ([[SetCard validSymbols] containsObject:symbol]){
         _symbol = symbol;
@@ -71,7 +76,8 @@
     if (otherCards.count == 2){
         if ([self match:@[self, otherCards[0], otherCards[1]] byProperty:@"symbol"]
             && [self match:@[self, otherCards[0], otherCards[1]] byProperty:@"shading"]
-            && [self match:@[self, otherCards[0], otherCards[1]] byProperty:@"number"]){
+            && [self match:@[self, otherCards[0], otherCards[1]] byProperty:@"number"]
+        && [self match:@[self, otherCards[0], otherCards[1]] byProperty:@"color"]){
             
             score = 3;
         }
