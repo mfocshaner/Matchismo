@@ -17,15 +17,12 @@
 
 @implementation SetViewController
 
+
+
 static int gameMode = 0;
 
 - (Deck *)createDeck {
   return [[SetDeck alloc] init];
-}
-
-- (void)viewDidLoad {
-  [super viewDidLoad];
-  [self updateUI];
 }
 
 - (void)updateUI {
@@ -35,13 +32,22 @@ static int gameMode = 0;
     NSAttributedString *title = card.contents;
     [cardButton setAttributedTitle:title forState:UIControlStateNormal];
     cardButton.enabled = !card.isMatched;
-    [self setCardBorder:cardButton ifChosen:card.isChosen];
+    [self setCardBorder:cardButton ifChosen:(card.isChosen && !card.isMatched)];
     self.scorelabel.text = [NSString stringWithFormat:@"Score: %lli",
                             (long long)self.game.score];
   }
 }
 
-// TODO should be attributed string
+- (void)setCardBorder:(UIButton *)cardButton ifChosen:(BOOL)chosen {
+  if (chosen){
+    cardButton.layer.borderWidth = 2.0f;
+    cardButton.layer.borderColor = [UIColor blueColor].CGColor;
+    cardButton.layer.cornerRadius = 7.0f;
+    return;
+  }
+  cardButton.layer.borderWidth=0;
+}
+
 - (NSString *)titleForCard:(Card *)card {
   return card.contents;
 }
@@ -67,40 +73,31 @@ static int gameMode = 0;
     strokeWidth = @-6.0f;
   }
   
-  
   NSDictionary <NSAttributedStringKey, id> *attributes = @{NSForegroundColorAttributeName:colorAttributeWithAlpha,                                                          NSStrokeWidthAttributeName:strokeWidth,                                                           NSStrokeColorAttributeName:colorAttribute,                                                                                                          };
   
-  NSAttributedString * string = [[NSAttributedString alloc] initWithString:card.contents attributes:attributes];
-  
-  return string;
+  return [[NSAttributedString alloc] initWithString:card.contents attributes:attributes];
 }
 
 - (IBAction)touchCardButton:(UIButton *)sender {
   NSUInteger chosenButtonIndex = [self.cardButtons indexOfObject:sender];
+  NSInteger scoreBeforeAction = self.game.score;
   NSAttributedString *outputString = [self.game chooseCardAtIndex:chosenButtonIndex];
+  NSInteger scoreAfterAction = self.game.score;
   self.resultLabel.attributedText = outputString;
-//  [NSString stringWithFormat:@"Result: %@", outputString];
-  
+  if (scoreBeforeAction != scoreAfterAction){
+    [self.gameHistory appendAttributedString:outputString];
+    [self.gameHistory appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"                                                                          attributes:nil]];
+  }
   self.modeButton.enabled = NO;
   [self updateUI];
 }
 
 
-- (void)setCardBorder:(UIButton *)cardButton ifChosen:(BOOL)chosen {
-  if (chosen){
-    cardButton.layer.borderWidth = 2.0f;
-    cardButton.layer.borderColor = [UIColor blueColor].CGColor;
-    cardButton.layer.cornerRadius = 7.0f;
-    return;
-  }
-  cardButton.layer.borderWidth=0;
-  
-}
-
 
 - (void)resetGame {
   self.game = [[SetGame alloc] initWithCardCount: self.cardButtons.count usingDeck:[self createDeck] usingGameMode:gameMode];
-  self.resultLabel.text = [NSString stringWithFormat:@"Result: new game"];
+  self.resultLabel.text = @"Result: new game";
+  [self.gameHistory appendAttributedString:[[NSAttributedString alloc] initWithString:@"New game started\n"]];
 }
 
 @end

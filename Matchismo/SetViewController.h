@@ -11,6 +11,6 @@
 
 @interface SetViewController : ViewController
 
-// @property (strong, nonatomic) SetGame *setGame;
+
 
 @end

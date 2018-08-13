@@ -6,7 +6,8 @@
 //  Copyright © 2018 Michael Focshaner. All rights reserved.
 //
 
-#import "ViewController.h" 
+#import "ViewController.h"
+#import "HistoryViewController.h"
 
 
 @interface ViewController ()
@@ -20,6 +21,13 @@
 static const int DEFAULT_MODE = 2;
 static int gameMode = DEFAULT_MODE;
 
+- (void)viewDidLoad {
+  [super viewDidLoad];
+  if (!self.gameHistory) {
+    self.gameHistory = [[NSMutableAttributedString alloc] init];
+  }
+  [self updateUI];
+}
 
 - (CardMatchingGame *)game{
   if (!_game) {[self resetGame];};
@@ -29,25 +37,13 @@ static int gameMode = DEFAULT_MODE;
 - (IBAction)touchStartNewGameButton:(UIButton *)sender {
     [self resetGame];
     self.modeButton.enabled = YES;
-    // NSLog(@"%@", [NSString stringWithFormat:@"Mode: %d", gameMode]);
     [self updateUI];
-}
-
-- (IBAction)modeChange:(UISegmentedControl *)sender {
-    if (sender.selectedSegmentIndex == 0){
-        gameMode = DEFAULT_MODE;
-        NSLog(@"%@", [NSString stringWithFormat:@"Mode: %d", gameMode]);
-    }
-    else {
-        gameMode = 3;
-        NSLog(@"%@", [NSString stringWithFormat:@"Mode: %d", gameMode]);
-    }
-    [self resetGame];
 }
 
 - (void)resetGame{
   _game = [[CardMatchingGame alloc] initWithCardCount:_cardButtons.count usingDeck:[self createDeck] usingGameMode:gameMode];
-  self.resultLabel.text = [NSString stringWithFormat:@"Result: new game"];
+  self.resultLabel.text = @"Result: new game";
+  [self.gameHistory appendAttributedString:[[NSAttributedString alloc] initWithString:@"New game started\n"]];
 }
 
 - (IBAction)touchCardButton:(UIButton *)sender {
@@ -82,6 +78,17 @@ static int gameMode = DEFAULT_MODE;
 
 - (Deck *)createDeck{
   return nil; //abstract!
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+  if ([segue.destinationViewController isKindOfClass:[HistoryViewController class]]){
+    HistoryViewController *destinationHistoryController = (HistoryViewController *)segue.destinationViewController;
+    if (!destinationHistoryController.historyString) {
+      destinationHistoryController.historyString = [[NSMutableAttributedString alloc] initWithAttributedString:self.gameHistory];
+      return;
+    }
+    destinationHistoryController.historyString = self.gameHistory;
+  }
 }
 
 

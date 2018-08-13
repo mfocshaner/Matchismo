@@ -24,6 +24,8 @@
 
 @property (strong, nonatomic) CardMatchingGame *game;
 
+@property (strong, nonatomic) NSMutableAttributedString *gameHistory;
+
 - (Deck *)createDeck;
 
 

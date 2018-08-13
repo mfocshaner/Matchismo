@@ -31,6 +31,8 @@ static const int COST_TO_CHOOSE = 1;
 }
 
 
+
+
 - (NSAttributedString *)chooseCardAtIndex:(NSUInteger)index {
   SetCard *card = [self cardAtIndex:index];
   if (card.isMatched){
@@ -44,25 +46,29 @@ static const int COST_TO_CHOOSE = 1;
   }
   card.chosen = YES;
   [self.chosenCards addObject:card];
-  
   if (self.chosenCards.count < 3) {
     return [self concatenateCardContents:self.chosenCards];
   }
   
-  // NSString *retString = @"";
   BOOL foundMatch = [card match:self.chosenCards];
-  if (foundMatch) {
-    [self matchAllChosen];
-    self.score += MATCH_BONUS;
-    return [self matchMessage:[self concatenateCardContents:self.chosenCards] success:YES];
-  }
+  return foundMatch ? [self foundMatchActions] : [self mismatchActions];
+}
+
+- (NSAttributedString * _Nonnull)foundMatchActions {
+  [self matchAllChosen];
+  self.score += MATCH_BONUS;
   
+  NSAttributedString * retMessage = [self matchMessage:[self concatenateCardContents:self.chosenCards] success:YES];
+  [self.chosenCards removeAllObjects];
+  return retMessage;
+}
+
+- (NSAttributedString * _Nonnull)mismatchActions {
   self.score -= COST_TO_CHOOSE;
   [self unchooseAllCards];
   NSAttributedString *stringToReturn = [self matchMessage:[self concatenateCardContents:self.chosenCards] success:NO];
   [self.chosenCards removeAllObjects];
   return stringToReturn;
-//  return @"Not a set!";
 }
 
 - (NSAttributedString *)concatenateCardContents:(NSArray<SetCard *> *)chosenCards {

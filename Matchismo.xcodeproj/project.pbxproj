@@ -25,6 +25,7 @@
 		F4B83A59211C24E90005DCCE /* PlayingCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4B83A58211C24E90005DCCE /* PlayingCardViewController.m */; };
 		F4B83A5C211C27E50005DCCE /* SetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4B83A5B211C27E50005DCCE /* SetViewController.m */; };
 		F4B83A5F211C4B560005DCCE /* SetGame.m in Sources */ = {isa = PBXBuildFile; fileRef = F4B83A5E211C4B560005DCCE /* SetGame.m */; };
+		F4B83A6221215B920005DCCE /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4B83A6121215B920005DCCE /* HistoryViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -81,6 +82,8 @@
 		F4B83A5B211C27E50005DCCE /* SetViewController.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; path = SetViewController.m; sourceTree = "<group>"; tabWidth = 2; };
 		F4B83A5D211C4B560005DCCE /* SetGame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SetGame.h; path = Matchismo/Model/SetGame.h; sourceTree = SOURCE_ROOT; };
 		F4B83A5E211C4B560005DCCE /* SetGame.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; name = SetGame.m; path = Matchismo/Model/SetGame.m; sourceTree = SOURCE_ROOT; tabWidth = 2; };
+		F4B83A6021215B920005DCCE /* HistoryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HistoryViewController.h; sourceTree = "<group>"; };
+		F4B83A6121215B920005DCCE /* HistoryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HistoryViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +142,8 @@
 				F4B83A5A211C27E50005DCCE /* SetViewController.h */,
 				F4B83A5B211C27E50005DCCE /* SetViewController.m */,
 				F416549C21133DD6009997C4 /* Main.storyboard */,
+				F4B83A6021215B920005DCCE /* HistoryViewController.h */,
+				F4B83A6121215B920005DCCE /* HistoryViewController.m */,
 				F416549F21133DD6009997C4 /* Assets.xcassets */,
 				F41654A121133DD6009997C4 /* LaunchScreen.storyboard */,
 				F41654A421133DD6009997C4 /* Info.plist */,
@@ -327,6 +332,7 @@
 				F416549821133DD5009997C4 /* AppDelegate.m in Sources */,
 				F4B83A5F211C4B560005DCCE /* SetGame.m in Sources */,
 				F41654DA2116E173009997C4 /* Card.m in Sources */,
+				F4B83A6221215B920005DCCE /* HistoryViewController.m in Sources */,
 				F4B83A50211B32230005DCCE /* SetCard.m in Sources */,
 				F4B83A5C211C27E50005DCCE /* SetViewController.m in Sources */,
 				F41654DD21181DBA009997C4 /* CardMatchingGame.m in Sources */,
