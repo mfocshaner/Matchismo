@@ -48,9 +48,15 @@ static int gameMode = DEFAULT_MODE;
 
 - (IBAction)touchCardButton:(UIButton *)sender {
   NSUInteger chosenButtonIndex = [self.cardButtons indexOfObject:sender];
+  NSInteger scoreBeforeAction = self.game.score;
   NSString *outputString = [self.game chooseCardAtIndex:chosenButtonIndex];
+  NSInteger scoreAfterAction = self.game.score;
   self.resultLabel.text = [NSString stringWithFormat:@"Result: %@", outputString];
-
+  if (scoreBeforeAction != scoreAfterAction && (![outputString isEqualToString:@""])){
+    [self.gameHistory appendAttributedString:[[NSAttributedString alloc] initWithString:outputString attributes:nil]];
+    [self.gameHistory appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" score is now: %ld \n", (long)self.game.score]                                                                      attributes:nil]];
+  }
+  
   self.modeButton.enabled = NO;
   [self updateUI];
 }

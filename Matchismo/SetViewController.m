@@ -86,7 +86,7 @@ static int gameMode = 0;
   self.resultLabel.attributedText = outputString;
   if (scoreBeforeAction != scoreAfterAction){
     [self.gameHistory appendAttributedString:outputString];
-    [self.gameHistory appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"                                                                          attributes:nil]];
+     [self.gameHistory appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" score is now: %ld \n", (long)self.game.score]                                                                      attributes:nil]];
   }
   self.modeButton.enabled = NO;
   [self updateUI];
