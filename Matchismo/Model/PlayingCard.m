@@ -20,7 +20,7 @@
 
 + (NSArray *)validSuits
 {
-    return @[@"♠︎", @"♣︎", @"\u2764\uFE0F", @"\u2666\uFE0F"];
+    return @[@"♠️", @"♣️", @"♥️", @"♦️"];
 }
 
 - (void)setSuit:(NSString *)suit

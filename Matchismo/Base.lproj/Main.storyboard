@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="cSw-RU-fQ6">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="iVM-yc-9sr">
     <device id="retina5_5" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -666,6 +666,40 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9Kz-sg-HzN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-520.28985507246375" y="-184.23913043478262"/>
+        </scene>
+        <!--Dummy View Controller-->
+        <scene sceneID="pXM-dg-71C">
+            <objects>
+                <viewController id="iVM-yc-9sr" customClass="DummyViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="e3m-4g-HVO">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yhZ-2s-oIn" customClass="PlayingCardView">
+                                <rect key="frame" x="104" y="225" width="207" height="287"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="qFU-gj-21J" appends="YES" id="v8G-dp-coa"/>
+                                </connections>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="0.0" green="0.56284224989999998" blue="0.31881666180000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <viewLayoutGuide key="safeArea" id="bNh-Rb-KOm"/>
+                    </view>
+                    <connections>
+                        <outlet property="playingCardView" destination="yhZ-2s-oIn" id="MT2-LU-tLT"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="DOJ-lH-FBd" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                <swipeGestureRecognizer direction="right" id="qFU-gj-21J">
+                    <connections>
+                        <action selector="swipe:" destination="iVM-yc-9sr" id="cBr-BI-jCZ"/>
+                    </connections>
+                </swipeGestureRecognizer>
+            </objects>
+            <point key="canvasLocation" x="-1775.3623188405797" y="924.45652173913049"/>
         </scene>
         <!--Set-->
         <scene sceneID="ibX-h1-7Rq">

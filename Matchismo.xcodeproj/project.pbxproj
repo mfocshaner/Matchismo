@@ -26,6 +26,8 @@
 		F4B83A5C211C27E50005DCCE /* SetViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4B83A5B211C27E50005DCCE /* SetViewController.m */; };
 		F4B83A5F211C4B560005DCCE /* SetGame.m in Sources */ = {isa = PBXBuildFile; fileRef = F4B83A5E211C4B560005DCCE /* SetGame.m */; };
 		F4B83A6221215B920005DCCE /* HistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4B83A6121215B920005DCCE /* HistoryViewController.m */; };
+		F4B83A65212404C20005DCCE /* PlayingCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4B83A64212404C20005DCCE /* PlayingCardView.m */; };
+		F4B83A68212448DF0005DCCE /* DummyViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4B83A67212448DF0005DCCE /* DummyViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +86,10 @@
 		F4B83A5E211C4B560005DCCE /* SetGame.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; name = SetGame.m; path = Matchismo/Model/SetGame.m; sourceTree = SOURCE_ROOT; tabWidth = 2; };
 		F4B83A6021215B920005DCCE /* HistoryViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HistoryViewController.h; sourceTree = "<group>"; };
 		F4B83A6121215B920005DCCE /* HistoryViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HistoryViewController.m; sourceTree = "<group>"; };
+		F4B83A63212404C20005DCCE /* PlayingCardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PlayingCardView.h; sourceTree = "<group>"; };
+		F4B83A64212404C20005DCCE /* PlayingCardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PlayingCardView.m; sourceTree = "<group>"; };
+		F4B83A66212448DF0005DCCE /* DummyViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DummyViewController.h; sourceTree = "<group>"; };
+		F4B83A67212448DF0005DCCE /* DummyViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DummyViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,8 +148,12 @@
 				F4B83A5A211C27E50005DCCE /* SetViewController.h */,
 				F4B83A5B211C27E50005DCCE /* SetViewController.m */,
 				F416549C21133DD6009997C4 /* Main.storyboard */,
+				F4B83A66212448DF0005DCCE /* DummyViewController.h */,
+				F4B83A67212448DF0005DCCE /* DummyViewController.m */,
 				F4B83A6021215B920005DCCE /* HistoryViewController.h */,
 				F4B83A6121215B920005DCCE /* HistoryViewController.m */,
+				F4B83A63212404C20005DCCE /* PlayingCardView.h */,
+				F4B83A64212404C20005DCCE /* PlayingCardView.m */,
 				F416549F21133DD6009997C4 /* Assets.xcassets */,
 				F41654A121133DD6009997C4 /* LaunchScreen.storyboard */,
 				F41654A421133DD6009997C4 /* Info.plist */,
@@ -331,12 +341,14 @@
 				F41654A621133DD6009997C4 /* main.m in Sources */,
 				F416549821133DD5009997C4 /* AppDelegate.m in Sources */,
 				F4B83A5F211C4B560005DCCE /* SetGame.m in Sources */,
+				F4B83A65212404C20005DCCE /* PlayingCardView.m in Sources */,
 				F41654DA2116E173009997C4 /* Card.m in Sources */,
 				F4B83A6221215B920005DCCE /* HistoryViewController.m in Sources */,
 				F4B83A50211B32230005DCCE /* SetCard.m in Sources */,
 				F4B83A5C211C27E50005DCCE /* SetViewController.m in Sources */,
 				F41654DD21181DBA009997C4 /* CardMatchingGame.m in Sources */,
 				F41654D22116D246009997C4 /* PlayingCard.m in Sources */,
+				F4B83A68212448DF0005DCCE /* DummyViewController.m in Sources */,
 				F41654D82116E039009997C4 /* PlayingCardDeck.m in Sources */,
 				F4B83A59211C24E90005DCCE /* PlayingCardViewController.m in Sources */,
 				F41654D52116DAA6009997C4 /* Deck.m in Sources */,
