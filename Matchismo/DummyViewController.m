@@ -20,6 +20,8 @@
 
 @implementation DummyViewController
 
+#define FLIP_ANIMATION_DURATION 0.3
+
 - (Deck *)deck {
   if (!_deck) _deck = [[PlayingCardDeck alloc] init];
   return _deck;
@@ -38,7 +40,9 @@
   if (!self.playingCardView.faceUp) {
     [self drawRandomPlayingCard];
   }
-  self.playingCardView.faceUp = !self.playingCardView.faceUp;
+  [UIView transitionWithView:self.playingCardView duration:FLIP_ANIMATION_DURATION options:UIViewAnimationOptionTransitionFlipFromLeft animations:^(){
+    self.playingCardView.faceUp = !self.playingCardView.faceUp;
+  } completion:nil];
   
 }
 
