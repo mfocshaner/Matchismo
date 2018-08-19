@@ -99,10 +99,35 @@ static void createCardViews(DummyViewController *object) {
     [object.backgroundView addSubview:createdPlayingCardView];
   }
   SetCardView *setCard = [[SetCardView alloc] initWithFrame:[object->_grid frameOfCellAtIndex:13]];
-  setCard.symbol = @"squiggle";
+  setCard.symbol = @"oval";
+  setCard.shading = @"solid";
+  setCard.number = 3;
+  setCard.color = @"green";
+  
   [setCard setBackgroundColor:[UIColor clearColor]];
   [setCard setUserInteractionEnabled:YES];
   [object.backgroundView addSubview:setCard];
+  
+  SetCardView *setCard2 = [[SetCardView alloc] initWithFrame:[object->_grid frameOfCellAtIndex:14]];
+  setCard2.symbol = @"squiggle";
+  setCard2.shading = @"striped";
+  setCard2.number = 2;
+  setCard2.color = @"purple";
+  
+  [setCard2 setBackgroundColor:[UIColor clearColor]];
+  [setCard2 setUserInteractionEnabled:YES];
+  [object.backgroundView addSubview:setCard2];
+
+  SetCardView *setCard3 = [[SetCardView alloc] initWithFrame:[object->_grid frameOfCellAtIndex:15]];
+  setCard3.symbol = @"diamond";
+  setCard3.shading = @"open";
+  setCard3.number = 1;
+  setCard3.color = @"red";
+
+  [setCard3 setBackgroundColor:[UIColor clearColor]];
+  [setCard3 setUserInteractionEnabled:YES];
+  [object.backgroundView addSubview:setCard3];
+  
 }
 
 - (void)animateRemovingCards:(NSArray *)cardsToRemove {
