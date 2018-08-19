@@ -10,10 +10,13 @@
 #import "PlayingCardView.h"
 #import "PlayingCardDeck.h"
 #import "PlayingCard.h"
+#import "Grid.h"
 
 @interface DummyViewController ()
 @property (weak, nonatomic) IBOutlet PlayingCardView *playingCardView;
 @property (strong, nonatomic) Deck *deck;
+@property (strong, nonatomic) Grid *grid;
+@property (weak, nonatomic) IBOutlet UIView *backgroundView;
 
 
 @end
@@ -21,6 +24,18 @@
 @implementation DummyViewController
 
 #define FLIP_ANIMATION_DURATION 0.3
+
+- (void)awakeFromNib{
+  _grid = [[Grid alloc] init];
+  _deck = [[PlayingCardDeck alloc] init];
+}
+
+- (void)setGridBounds{
+  _grid.size = _backgroundView.bounds.size;
+  _grid.cellAspectRatio = 0.6;
+  _grid.minimumNumberOfCells = 12;
+  assert(_grid.inputsAreValid);
+}
 
 - (Deck *)deck {
   if (!_deck) _deck = [[PlayingCardDeck alloc] init];
@@ -46,26 +61,39 @@
   
 }
 
+- (Grid *)grid {
+  if (!_grid) _grid = [[Grid alloc] init];
+  return _grid;
+}
+
+ - (IBAction)tapOnCard:(UITapGestureRecognizer *)sender {
+  CGPoint tapLocation = ([sender locationInView:self.backgroundView]);
+  UIView *tappedView = [self.backgroundView hitTest:tapLocation withEvent:nil];
+  [UIView transitionWithView:(PlayingCardView*)tappedView duration:FLIP_ANIMATION_DURATION options:UIViewAnimationOptionTransitionFlipFromLeft animations:^(){
+    [(PlayingCardView *)tappedView setFaceUp:![(PlayingCardView *)tappedView faceUp]];
+  } completion:nil];
+ }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+  [self setGridBounds];
+  
+  for (NSInteger i = 0; i < 12; i++) {
+    PlayingCardView *createdPlayingCardView = [[PlayingCardView alloc] initWithFrame:[_grid frameOfCellAtIndex:i]];
+    PlayingCard *newRandomCard = [_deck drawRandomCard];
+    createdPlayingCardView.suit = newRandomCard.suit;
+    createdPlayingCardView.rank = newRandomCard.rank;
+    createdPlayingCardView.faceUp = YES;
+    [createdPlayingCardView setBackgroundColor:[UIColor clearColor]];
+    [createdPlayingCardView setUserInteractionEnabled:YES];
+    
+    [self.backgroundView addSubview:createdPlayingCardView];
+
+  }
+  
   self.playingCardView.suit = @"♥️";
   self.playingCardView.rank = 13;
-    // Do any additional setup after loading the view.
-}
 
-- (void)didReceiveMemoryWarning {
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end
