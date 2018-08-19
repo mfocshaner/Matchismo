@@ -49,32 +49,10 @@
 
 #pragma mark - Drawing
 
-#define CORNER_FONT_STANDARD_HEIGHT 180.0
-#define CORNER_RADIUS 12.0
 
-- (CGFloat)cornerScaleFactor {
-  return self.bounds.size.height / CORNER_FONT_STANDARD_HEIGHT;
-}
-
-- (CGFloat)cornerRadius {
-  return CORNER_RADIUS * [self cornerScaleFactor];
-}
-
-- (CGFloat)cornerOffset {
-  return [self cornerRadius] / 3.0;
-}
 
 - (void)drawRect:(CGRect)rect {
-  UIBezierPath *roundedRect = [UIBezierPath bezierPathWithRoundedRect:self.bounds cornerRadius:[self cornerRadius]];
-  
-  [roundedRect addClip];
-  
-  [[UIColor whiteColor] setFill];
-  UIRectFill(self.bounds);
-  
-  [[UIColor blackColor] setStroke];
-  [roundedRect stroke];
-  
+  [super drawRect:rect];
   
   if (self.faceUp) {
     UIImage *faceImage = [UIImage imageNamed:[NSString stringWithFormat:@"%@%@", [self rankAsString], self.suit]];
@@ -85,18 +63,17 @@
   } else {
     [self drawPips];
   }
-    [self drawCorners];
+    [self drawCornerLetters];
   } else {
     [[UIImage imageNamed:@"cardback"] drawInRect:self.bounds];
   }
-  
 }
 
 - (NSString *)rankAsString {
   return @[@"?", @"A", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", @"J", @"Q", @"K"][self.rank];
 }
 
-- (void)drawCorners {
+- (void)drawCornerLetters {
   NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
   paragraphStyle.alignment = NSTextAlignmentCenter;
   
@@ -207,24 +184,6 @@
 
 
    
-#pragma mark - Initialization
+
    
-   - (void)setup{
-     self.backgroundColor = nil;
-     self.opaque = NO;
-     self.contentMode = UIViewContentModeRedraw;
-   }
-   
-   - (void)awakeFromNib {
-     [self setup];
-   }
-   
-   - (id)initWithFrame:(CGRect)frame {
-     self = [super initWithFrame:frame];
-     if (self){
-       // initialization code
-     }
-     return self;
-   }
-   
-   @end
+@end

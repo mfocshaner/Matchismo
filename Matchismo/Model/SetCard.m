@@ -51,10 +51,16 @@
 
 @synthesize symbol = _symbol;
 
+//+ (NSArray *)validSymbols
+//{
+//    return @[@"▲", @"●", @"■"];
+//}
+
 + (NSArray *)validSymbols
 {
-    return @[@"▲", @"●", @"■"];
+  return @[@"diamond", @"oval", @"squiggle"];
 }
+
 
 + (NSArray *)validColors
 {

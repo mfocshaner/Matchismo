@@ -20,6 +20,8 @@
 		F48664FB21255A8C000509FB /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F41654A121133DD6009997C4 /* LaunchScreen.storyboard */; };
 		F48664FC21255AAD000509FB /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F416549C21133DD6009997C4 /* Main.storyboard */; };
 		F48664FD21255B00000509FB /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F416549F21133DD6009997C4 /* Assets.xcassets */; };
+		F486650021298752000509FB /* CardView.m in Sources */ = {isa = PBXBuildFile; fileRef = F48664FF21298752000509FB /* CardView.m */; };
+		F4866505212989D5000509FB /* SetCardView.m in Sources */ = {isa = PBXBuildFile; fileRef = F4866504212989D5000509FB /* SetCardView.m */; };
 		F4B83A50211B32230005DCCE /* SetCard.m in Sources */ = {isa = PBXBuildFile; fileRef = F4B83A4F211B32230005DCCE /* SetCard.m */; };
 		F4B83A53211C19F60005DCCE /* SetDeck.m in Sources */ = {isa = PBXBuildFile; fileRef = F4B83A52211C19F60005DCCE /* SetDeck.m */; };
 		F4B83A59211C24E90005DCCE /* PlayingCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F4B83A58211C24E90005DCCE /* PlayingCardViewController.m */; };
@@ -75,6 +77,10 @@
 		F41654D92116E172009997C4 /* Card.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Card.m; path = Matchismo/Model/Card.m; sourceTree = SOURCE_ROOT; };
 		F41654DB21181DBA009997C4 /* CardMatchingGame.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CardMatchingGame.h; path = Matchismo/Model/CardMatchingGame.h; sourceTree = SOURCE_ROOT; };
 		F41654DC21181DBA009997C4 /* CardMatchingGame.m */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.c.objc; name = CardMatchingGame.m; path = Matchismo/Model/CardMatchingGame.m; sourceTree = SOURCE_ROOT; tabWidth = 2; };
+		F48664FE21298752000509FB /* CardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CardView.h; sourceTree = "<group>"; };
+		F48664FF21298752000509FB /* CardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = CardView.m; sourceTree = "<group>"; };
+		F4866503212989D5000509FB /* SetCardView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SetCardView.h; sourceTree = "<group>"; };
+		F4866504212989D5000509FB /* SetCardView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SetCardView.m; sourceTree = "<group>"; };
 		F4B83A4E211B32230005DCCE /* SetCard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SetCard.h; path = Matchismo/Model/SetCard.h; sourceTree = SOURCE_ROOT; };
 		F4B83A4F211B32230005DCCE /* SetCard.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = SetCard.m; path = Matchismo/Model/SetCard.m; sourceTree = SOURCE_ROOT; };
 		F4B83A51211C19F60005DCCE /* SetDeck.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = SetDeck.h; path = Matchismo/Model/SetDeck.h; sourceTree = SOURCE_ROOT; };
@@ -145,21 +151,11 @@
 			isa = PBXGroup;
 			children = (
 				F41654CC2116CB05009997C4 /* Model */,
-				F416549921133DD6009997C4 /* ViewController.h */,
-				F416549A21133DD6009997C4 /* ViewController.m */,
-				F4B83A57211C24E90005DCCE /* PlayingCardViewController.h */,
-				F4B83A58211C24E90005DCCE /* PlayingCardViewController.m */,
-				F4B83A5A211C27E50005DCCE /* SetViewController.h */,
-				F4B83A5B211C27E50005DCCE /* SetViewController.m */,
+				F48665022129877A000509FB /* ViewControllers */,
 				F416549C21133DD6009997C4 /* Main.storyboard */,
-				F4B83A66212448DF0005DCCE /* DummyViewController.h */,
-				F4B83A67212448DF0005DCCE /* DummyViewController.m */,
-				F4B83A6021215B920005DCCE /* HistoryViewController.h */,
-				F4B83A6121215B920005DCCE /* HistoryViewController.m */,
-				F4B83A63212404C20005DCCE /* PlayingCardView.h */,
-				F4B83A64212404C20005DCCE /* PlayingCardView.m */,
 				F4B83A6F212552870005DCCE /* Grid.h */,
 				F4B83A6E212552870005DCCE /* Grid.m */,
+				F48665012129875A000509FB /* Views */,
 				F4B83A6C2125525E0005DCCE /* Matchismo */,
 				F416549F21133DD6009997C4 /* Assets.xcassets */,
 				F41654A121133DD6009997C4 /* LaunchScreen.storyboard */,
@@ -211,6 +207,36 @@
 			);
 			name = Model;
 			path = "New Group";
+			sourceTree = "<group>";
+		};
+		F48665012129875A000509FB /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F4B83A63212404C20005DCCE /* PlayingCardView.h */,
+				F4B83A64212404C20005DCCE /* PlayingCardView.m */,
+				F48664FE21298752000509FB /* CardView.h */,
+				F48664FF21298752000509FB /* CardView.m */,
+				F4866503212989D5000509FB /* SetCardView.h */,
+				F4866504212989D5000509FB /* SetCardView.m */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F48665022129877A000509FB /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				F416549921133DD6009997C4 /* ViewController.h */,
+				F416549A21133DD6009997C4 /* ViewController.m */,
+				F4B83A57211C24E90005DCCE /* PlayingCardViewController.h */,
+				F4B83A58211C24E90005DCCE /* PlayingCardViewController.m */,
+				F4B83A5A211C27E50005DCCE /* SetViewController.h */,
+				F4B83A5B211C27E50005DCCE /* SetViewController.m */,
+				F4B83A66212448DF0005DCCE /* DummyViewController.h */,
+				F4B83A67212448DF0005DCCE /* DummyViewController.m */,
+				F4B83A6021215B920005DCCE /* HistoryViewController.h */,
+				F4B83A6121215B920005DCCE /* HistoryViewController.m */,
+			);
+			path = ViewControllers;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -350,8 +376,10 @@
 				F4B83A5F211C4B560005DCCE /* SetGame.m in Sources */,
 				F4B83A65212404C20005DCCE /* PlayingCardView.m in Sources */,
 				F41654DA2116E173009997C4 /* Card.m in Sources */,
+				F486650021298752000509FB /* CardView.m in Sources */,
 				F4B83A70212552880005DCCE /* Grid.m in Sources */,
 				F4B83A6221215B920005DCCE /* HistoryViewController.m in Sources */,
+				F4866505212989D5000509FB /* SetCardView.m in Sources */,
 				F4B83A50211B32230005DCCE /* SetCard.m in Sources */,
 				F4B83A5C211C27E50005DCCE /* SetViewController.m in Sources */,
 				F41654DD21181DBA009997C4 /* CardMatchingGame.m in Sources */,
