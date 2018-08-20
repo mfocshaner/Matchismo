@@ -19,12 +19,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 // - (void)chooseCardAtIndex:(NSUInteger)index;
-- (void)chooseCardAndCheckMatchAtIndex:(NSUInteger)index;
+- (BOOL)chooseCardAndCheckMatchAtIndex:(NSUInteger)index;
 - (Card *)cardAtIndex:(NSUInteger)index;
 - (NSUInteger)cardCount;
 
 - (void)unchooseAllCards;
 - (void)matchAllChosen;
+- (void)removeCardsFromGame:(NSArray *)cardsToRemove;
 
 @property (nonatomic, readonly) NSInteger score;
 

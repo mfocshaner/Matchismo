@@ -67,7 +67,7 @@
 		F41654B621133DD6009997C4 /* MatchismoUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MatchismoUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F41654BA21133DD6009997C4 /* MatchismoUITests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MatchismoUITests.m; sourceTree = "<group>"; };
 		F41654BC21133DD6009997C4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		F41654CD2116CFFF009997C4 /* Card.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Card.h; path = ../Model/Card.h; sourceTree = "<group>"; };
+		F41654CD2116CFFF009997C4 /* Card.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Card.h; sourceTree = "<group>"; };
 		F41654D02116D246009997C4 /* PlayingCard.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = PlayingCard.h; path = Matchismo/Model/PlayingCard.h; sourceTree = SOURCE_ROOT; };
 		F41654D12116D246009997C4 /* PlayingCard.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = PlayingCard.m; path = Matchismo/Model/PlayingCard.m; sourceTree = SOURCE_ROOT; };
 		F41654D32116DAA6009997C4 /* Deck.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = Deck.h; path = Matchismo/Model/Deck.h; sourceTree = SOURCE_ROOT; };
@@ -205,8 +205,7 @@
 				F4B83A51211C19F60005DCCE /* SetDeck.h */,
 				F4B83A52211C19F60005DCCE /* SetDeck.m */,
 			);
-			name = Model;
-			path = "New Group";
+			path = Model;
 			sourceTree = "<group>";
 		};
 		F48665012129875A000509FB /* Views */ = {

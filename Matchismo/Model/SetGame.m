@@ -26,71 +26,49 @@ static const int COST_TO_CHOOSE = 1;
 
 
 - (NSMutableArray *)chosenCards{
-  if (!_chosenCards) _chosenCards = [[NSMutableArray<Card *> alloc] init];
+  if (!_chosenCards) _chosenCards = [[NSMutableArray<SetCard *> alloc] init];
   return _chosenCards;
 }
 
 
 
 
-- (NSAttributedString *)chooseCardAndCheckMatchAtIndex:(NSUInteger)index {
+- (BOOL)chooseCardAndCheckMatchAtIndex:(NSUInteger)index {
   SetCard *card = [self cardAtIndex:index];
   if (card.isMatched){
-    return nil;
+    return NO;
   }
   
   if (card.isChosen){
     card.chosen = NO;
     [self.chosenCards removeObject:card];
-    return [self concatenateCardContents:self.chosenCards];
+    return NO;
   }
   card.chosen = YES;
   [self.chosenCards addObject:card];
   if (self.chosenCards.count < 3) {
-    return [self concatenateCardContents:self.chosenCards];
+    return NO;
   }
   
   BOOL foundMatch = [card match:self.chosenCards];
   return foundMatch ? [self foundMatchActions] : [self mismatchActions];
 }
 
-- (NSAttributedString * _Nonnull)foundMatchActions {
+- (BOOL)foundMatchActions {
   [self matchAllChosen];
   self.score += MATCH_BONUS;
   
-  NSAttributedString * retMessage = [self matchMessage:[self concatenateCardContents:self.chosenCards] success:YES];
   [self.chosenCards removeAllObjects];
-  return retMessage;
+  return YES;
 }
 
-- (NSAttributedString * _Nonnull)mismatchActions {
+- (BOOL)mismatchActions {
   self.score -= COST_TO_CHOOSE;
-  [self unchooseAllCards];
-  NSAttributedString *stringToReturn = [self matchMessage:[self concatenateCardContents:self.chosenCards] success:NO];
+  // [self unchooseAllCards];
   [self.chosenCards removeAllObjects];
-  return stringToReturn;
+  return NO;
 }
 
-- (NSAttributedString *)concatenateCardContents:(NSArray<SetCard *> *)chosenCards {
-  NSAttributedString *separator = [[NSAttributedString alloc] initWithString:@", "];
-  NSMutableAttributedString *retString = [[NSMutableAttributedString alloc] init];
-  for (SetCard *card in chosenCards) {
-    [retString appendAttributedString:card.contents];
-    [retString appendAttributedString:separator];
-  }
-  return (NSAttributedString *) retString;
-}
 
-- (NSAttributedString *)matchMessage:(NSAttributedString *)cardsString success:(BOOL)didMatch {
-  NSAttributedString *successMessage = [[NSAttributedString alloc] initWithString:@"matched! Hurray!"];
-  NSAttributedString *failureMessage = [[NSAttributedString alloc] initWithString:@"didn't match :("];
-  NSMutableAttributedString *retString = [[NSMutableAttributedString alloc] initWithAttributedString:cardsString];
-  if (didMatch){
-    [retString appendAttributedString:successMessage];
-    return retString;
-  }
-  [retString appendAttributedString:failureMessage];
-  return retString;
-}
 
 @end

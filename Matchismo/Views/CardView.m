@@ -7,6 +7,7 @@
 //
 
 #import "CardView.h"
+#import "Card.h"
 
 @implementation CardView
 
@@ -28,24 +29,15 @@
 }
 
 @synthesize strokeColor = _strokeColor;
-
-#define BUFFER_BETWEEN_CARDS 3
-- (void)drawRect:(CGRect)rect {
-  self.bounds = CGRectMake(self.bounds.origin.x, self.bounds.origin.y, self.bounds.size.width - BUFFER_BETWEEN_CARDS,
-      self.bounds.size.height - BUFFER_BETWEEN_CARDS);
-  UIBezierPath *roundedRect = [UIBezierPath bezierPathWithRoundedRect:self.bounds cornerRadius:[self cornerRadius]];
-  
-  [roundedRect addClip];
-  
-  [[UIColor whiteColor] setFill];
-  UIRectFill(self.bounds);
-  
-  [self.strokeColor setStroke];
-  [roundedRect stroke];
-}
+@synthesize chosen = _chosen;
 
 - (void)setStrokeColor:(UIColor *)strokeColor {
   _strokeColor = strokeColor;
+  [self setNeedsDisplay];
+}
+
+- (void)setChosen:(BOOL)chosen {
+  _chosen = chosen;
   [self setNeedsDisplay];
 }
 
@@ -56,10 +48,30 @@
   return _strokeColor;
 }
 
+#define BUFFER_BETWEEN_CARDS 3
+- (void)drawRect:(CGRect)rect {
+  CGRect boundsWithBuffer = CGRectMake(self.bounds.origin.x, self.bounds.origin.y, self.bounds.size.width - BUFFER_BETWEEN_CARDS,
+                                       self.bounds.size.height - BUFFER_BETWEEN_CARDS);
+  UIBezierPath *roundedRect = [UIBezierPath bezierPathWithRoundedRect:boundsWithBuffer cornerRadius:[self cornerRadius]];
+  
+  [roundedRect addClip];
+  
+  [[UIColor whiteColor] setFill];
+  UIRectFill(self.bounds);
+  
+  [self.strokeColor setStroke];
+  if (self.chosen) {
+    CGContextStrokeRectWithWidth(UIGraphicsGetCurrentContext(), boundsWithBuffer, 3);
+  } else {
+    [roundedRect stroke];
+  }
+}
+
 #pragma mark - Initialization
 
 - (void)viewDidLoad {
   [self setup];
+
 }
 
 - (void)setup{
@@ -67,6 +79,7 @@
   self.opaque = NO;
   self.contentMode = UIViewContentModeRedraw;
   self.strokeColor = [UIColor blackColor];
+  _chosen = NO;
 }
 
 - (void)awakeFromNib {

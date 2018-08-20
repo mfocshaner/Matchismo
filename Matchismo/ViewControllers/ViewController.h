@@ -27,6 +27,7 @@
 @property (strong, nonatomic) Grid *grid;
 @property (weak, nonatomic) IBOutlet UIView *backgroundView;
 @property (strong, nonatomic) NSMutableArray <UIView *> *cardViewsToRemove;
+@property (nonatomic) NSInteger defaultInitialCardNumber;
 
 - (Deck *)createDeck;
 - (void)animateRemovingCards:(NSArray *)cardsToRemove;

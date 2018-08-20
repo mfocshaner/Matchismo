@@ -21,10 +21,11 @@
 
 static const int DEFAULT_MODE = 2;
 static int gameMode = DEFAULT_MODE;
+static const int DEFAULT_INIT_CARDS = 30;
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  [self resetGame];
+  [self initGame];
   [self setGridBounds];
   [self createCardViews];
 }
@@ -49,9 +50,10 @@ static int gameMode = DEFAULT_MODE;
   }
 }
 
+#define DEFAULT_INITIAL_CARD_COUNT 30
 - (void)awakeFromNib {
   [super awakeFromNib];
-  [self resetGame];
+  _game = [[CardMatchingGame alloc] initWithCardCount:DEFAULT_INIT_CARDS usingDeck:[self createDeck] usingGameMode:gameMode];
   _grid = [[Grid alloc] init];
   _cardViewsToRemove = [[NSMutableArray alloc] init];
 }
@@ -65,10 +67,13 @@ static int gameMode = DEFAULT_MODE;
     [self resetGame];
 }
 
+- (void)initGame {
+  _game = [[CardMatchingGame alloc] initWithCardCount:DEFAULT_INIT_CARDS usingDeck:[self createDeck] usingGameMode:gameMode];
+}
 
-#define DEFAULT_INITIAL_CARD_COUNT 30
 - (void)resetGame{
-  _game = [[CardMatchingGame alloc] initWithCardCount:DEFAULT_INITIAL_CARD_COUNT usingDeck:[self createDeck] usingGameMode:gameMode];
+  [self animateRemovingCards:self.backgroundView.subviews];
+  _game = [[CardMatchingGame alloc] initWithCardCount:DEFAULT_INIT_CARDS usingDeck:[self createDeck] usingGameMode:gameMode];
 }
 
 #define VERTICAL_BOUNDS_BUFFER 10
@@ -91,7 +96,7 @@ static int gameMode = DEFAULT_MODE;
 - (void)setGridBounds{
   _grid.size = CGSizeMake(self.view.bounds.size.width - HORIZONTAL_BOUNDS_BUFFER, self.view.bounds.size.height - VERTICAL_BOUNDS_BUFFER);
   _grid.cellAspectRatio = 0.6;
-  _grid.minimumNumberOfCells = DEFAULT_INITIAL_CARD_COUNT;
+  _grid.minimumNumberOfCells = DEFAULT_INIT_CARDS;
   assert(_grid.inputsAreValid);
 }
 

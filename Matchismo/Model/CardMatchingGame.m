@@ -58,15 +58,15 @@ static const int MATCH_BONUS = 4;
 static const int COST_TO_CHOOSE = 1;
 
 
-- (void)chooseCardAndCheckMatchAtIndex:(NSUInteger)index {
+- (BOOL)chooseCardAndCheckMatchAtIndex:(NSUInteger)index {
   Card *card = [self cardAtIndex:index];
   if (card.isMatched){
-    return;
+    return NO;
   }
   
   if (card.isChosen){
     card.chosen = NO;
-    return;
+    return NO;
   }
   
   int numChosen = 1;
@@ -81,6 +81,7 @@ static const int COST_TO_CHOOSE = 1;
         card.matched = YES;
         [self matchAllChosen];
         foundMatch = YES;
+        return YES;
       } else {
         self.score -= MISMATCH_PENALTY;
       }
@@ -94,6 +95,7 @@ static const int COST_TO_CHOOSE = 1;
   }
   self.score -= COST_TO_CHOOSE;
   card.chosen = YES;
+  return NO;
 }
 
 - (void)unchooseAllCards{
@@ -111,5 +113,10 @@ static const int COST_TO_CHOOSE = 1;
     }
   }
 }
+
+- (void)removeCardsFromGame:(NSArray *)cardsToRemove {
+  [self.cards removeObjectsInArray:cardsToRemove];
+}
+
 
 @end

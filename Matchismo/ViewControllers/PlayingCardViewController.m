@@ -39,7 +39,7 @@
       [(PlayingCardView *)tappedView setFaceUp:![(PlayingCardView *)tappedView faceUp]];
     } completion:^(BOOL finished){
       [self.cardViewsToRemove addObject:tappedView];
-      if (self.cardViewsToRemove.count > 2) {
+      if (self.cardViewsToRemove.count > 3) {
         [self animateRemovingCards:[self.cardViewsToRemove copy]];
         [self.cardViewsToRemove removeAllObjects];
       }
