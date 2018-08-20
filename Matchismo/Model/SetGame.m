@@ -33,7 +33,7 @@ static const int COST_TO_CHOOSE = 1;
 
 
 
-- (NSAttributedString *)chooseCardAtIndex:(NSUInteger)index {
+- (NSAttributedString *)chooseCardAndCheckMatchAtIndex:(NSUInteger)index {
   SetCard *card = [self cardAtIndex:index];
   if (card.isMatched){
     return nil;

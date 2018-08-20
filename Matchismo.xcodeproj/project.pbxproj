@@ -212,10 +212,10 @@
 		F48665012129875A000509FB /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				F4B83A63212404C20005DCCE /* PlayingCardView.h */,
-				F4B83A64212404C20005DCCE /* PlayingCardView.m */,
 				F48664FE21298752000509FB /* CardView.h */,
 				F48664FF21298752000509FB /* CardView.m */,
+				F4B83A63212404C20005DCCE /* PlayingCardView.h */,
+				F4B83A64212404C20005DCCE /* PlayingCardView.m */,
 				F4866503212989D5000509FB /* SetCardView.h */,
 				F4866504212989D5000509FB /* SetCardView.m */,
 			);

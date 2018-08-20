@@ -52,10 +52,7 @@
   return _deck;
 }
 
-- (Grid *)grid {
-  if (!_grid) _grid = [[Grid alloc] init];
-  return _grid;
-}
+
 
 - (void)drawRandomPlayingCard {
   Card *card = [self.deck drawRandomCard];

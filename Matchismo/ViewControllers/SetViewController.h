@@ -11,6 +11,6 @@
 
 @interface SetViewController : ViewController
 
-
+@property (weak, nonatomic) IBOutlet UIView *backgroundView;
 
 @end

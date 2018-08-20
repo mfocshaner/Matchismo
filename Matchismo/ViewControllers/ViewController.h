@@ -11,23 +11,26 @@
 #import <UIKit/UIKit.h>
 #import "Deck.h"
 #import "CardMatchingGame.h"
+#import "Grid.h"
+
 
 @interface ViewController : UIViewController
 
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
 
 @property (strong, nonatomic) IBOutlet UIButton *startNewGameButton;
-@property (strong, nonatomic) IBOutlet UISegmentedControl *modeButton;
 
-@property (strong, nonatomic) IBOutlet UILabel *resultLabel;
 @property (weak, nonatomic) IBOutlet UILabel *scorelabel;
 
 @property (strong, nonatomic) CardMatchingGame *game;
 
-@property (strong, nonatomic) NSMutableAttributedString *gameHistory;
+@property (strong, nonatomic) Grid *grid;
+@property (weak, nonatomic) IBOutlet UIView *backgroundView;
+@property (strong, nonatomic) NSMutableArray <UIView *> *cardViewsToRemove;
 
 - (Deck *)createDeck;
-
+- (void)animateRemovingCards:(NSArray *)cardsToRemove;
+#define FLIP_ANIMATION_DURATION 0.3
 
 @end
 

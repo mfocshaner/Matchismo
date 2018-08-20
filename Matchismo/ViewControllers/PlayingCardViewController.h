@@ -7,7 +7,10 @@
 //
 
 #import "ViewController.h"
+#import <UIKit/UIKit.h>
 
 @interface PlayingCardViewController : ViewController
+
+@property (weak, nonatomic) IBOutlet UIView *backgroundView;
 
 @end

@@ -7,15 +7,20 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Card.h"
 
 @interface CardView : UIView
 
 #define CORNER_FONT_STANDARD_HEIGHT 180.0
 #define CORNER_RADIUS 12.0
 
+@property (strong, nonatomic) UIColor *strokeColor;
+
 - (CGFloat)cornerScaleFactor;
 - (CGFloat)cornerRadius;
 - (CGFloat)cornerOffset;
 - (void)drawRect:(CGRect)rect;
+- (void)setAttributedFromCard:(Card *)card;
+- (void)setStrokeColor:(UIColor *)strokeColor;
 
 @end

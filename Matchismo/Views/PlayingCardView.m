@@ -7,6 +7,7 @@
 //
 
 #import "PlayingCardView.h"
+#import "PlayingCard.h"
 
 @interface PlayingCardView()
 @property (nonatomic) CGFloat faceCardScaleFactor;
@@ -16,6 +17,12 @@
 
 #pragma mark - Properties
 
+#define DEFAULT_SIDE_TO_WAKE_UP NO
+
+- (void)awakeFromNib {
+  [super awakeFromNib];
+  _faceUp = DEFAULT_SIDE_TO_WAKE_UP;
+}
 
 @synthesize faceCardScaleFactor = _faceCardScaleFactor;
 
@@ -31,7 +38,6 @@
   [self setNeedsDisplay];
 }
 
-
 - (void)setSuit:(NSString *)suit {
   _suit = suit;
   [self setNeedsDisplay];
@@ -45,6 +51,15 @@
 - (void)setFaceUp:(BOOL)faceUp {
   _faceUp = faceUp;
   [self setNeedsDisplay];
+}
+
+- (void)setAttributedFromCard:(Card *)card {
+  if (![card isKindOfClass:[PlayingCard class]]){
+    return;
+  }
+  PlayingCard *playingCard = (PlayingCard *)card;
+  _rank = playingCard.rank;
+  _suit = playingCard.suit;
 }
 
 #pragma mark - Drawing

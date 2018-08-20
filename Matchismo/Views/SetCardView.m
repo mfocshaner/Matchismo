@@ -7,6 +7,7 @@
 //
 
 #import "SetCardView.h"
+#import "SetCard.h"
 
 @implementation SetCardView
 
@@ -36,6 +37,18 @@
 - (void)setNumber:(NSUInteger)number {
   _number = number;
   [self setNeedsDisplay];
+}
+
+
+- (void)setAttributedFromCard:(Card *)card {
+  if (![card isKindOfClass:[SetCard class]]){
+    return;
+  }
+  SetCard *setCard = (SetCard *)card;
+  _symbol = setCard.symbol;
+  _shading = setCard.shading;
+  _color = setCard.color;
+  _number = setCard.number;
 }
 
 - (void)drawRect:(CGRect)rect {

@@ -19,8 +19,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 
 // - (void)chooseCardAtIndex:(NSUInteger)index;
-- (NSString *)chooseCardAtIndex:(NSUInteger)index;
+- (void)chooseCardAndCheckMatchAtIndex:(NSUInteger)index;
 - (Card *)cardAtIndex:(NSUInteger)index;
+- (NSUInteger)cardCount;
 
 - (void)unchooseAllCards;
 - (void)matchAllChosen;

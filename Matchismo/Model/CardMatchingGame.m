@@ -8,6 +8,7 @@
 
 #import "CardMatchingGame.h"
 
+
 // private section ("Class Extension")
 @interface CardMatchingGame()
 @property (nonatomic, readwrite) NSInteger score;
@@ -21,6 +22,10 @@
 - (NSMutableArray *)cards{
     if (!_cards) _cards = [[NSMutableArray<Card *> alloc] init];
     return _cards;
+}
+
+- (NSUInteger)cardCount {
+  return self.cards.count;
 }
 
 - (nullable instancetype)initWithCardCount:(NSUInteger)count
@@ -53,18 +58,17 @@ static const int MATCH_BONUS = 4;
 static const int COST_TO_CHOOSE = 1;
 
 
-- (NSString *)chooseCardAtIndex:(NSUInteger)index {
+- (void)chooseCardAndCheckMatchAtIndex:(NSUInteger)index {
   Card *card = [self cardAtIndex:index];
   if (card.isMatched){
-    return @"";
+    return;
   }
   
   if (card.isChosen){
     card.chosen = NO;
-    return @"";
+    return;
   }
   
-  NSString *retString = @"";
   int numChosen = 1;
   BOOL foundMatch = NO;
   // match against other chosen cards
@@ -76,16 +80,13 @@ static const int COST_TO_CHOOSE = 1;
         self.score += matchScore * MATCH_BONUS;
         card.matched = YES;
         [self matchAllChosen];
-        retString = [NSString stringWithFormat:@"%@%@ match! hooray!", card.contents, otherCard.contents];
         foundMatch = YES;
       } else {
         self.score -= MISMATCH_PENALTY;
-        retString = [NSString stringWithFormat:@"%@%@ don't match!", card.contents, otherCard.contents];
       }
       if (numChosen == _gameMode){ // found max num of chosen allowed
         [self unchooseAllCards];
         if (numChosen > 2 && !foundMatch) { // can't show more than 2 that don't match
-        retString = [NSString stringWithFormat:@"nothing matched :(!"];
         }
         break;
       }
@@ -93,7 +94,6 @@ static const int COST_TO_CHOOSE = 1;
   }
   self.score -= COST_TO_CHOOSE;
   card.chosen = YES;
-  return retString;
 }
 
 - (void)unchooseAllCards{

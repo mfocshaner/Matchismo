@@ -7,10 +7,11 @@
 //
 
 #import "ViewController.h"
-#import "HistoryViewController.h"
-
+#import "CardView.h"
 
 @interface ViewController ()
+
+
 
 
 @end
@@ -23,10 +24,36 @@ static int gameMode = DEFAULT_MODE;
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  if (!self.gameHistory) {
-    self.gameHistory = [[NSMutableAttributedString alloc] init];
+  [self resetGame];
+  [self setGridBounds];
+  [self createCardViews];
+}
+
+- (void)createCardViews {
+  for (NSInteger i = 0; i < self.game.cardCount; i++) {
+    CardView *createdCardView =
+    [[CardView alloc] initWithFrame:[self.grid frameOfCellAtIndex:i]];
+    [createdCardView setAttributedFromCard:[self.game cardAtIndex:i]];
+    [createdCardView setBackgroundColor:[UIColor clearColor]];
+    [createdCardView setUserInteractionEnabled:YES];
+    [self.backgroundView addSubview:createdCardView];
   }
-  [self updateUI];
+}
+
+- (void)viewWillLayoutSubviews {
+  [super viewWillLayoutSubviews];
+  [self setGridBounds];
+  NSUInteger i = 0;
+  for (UIView *subview in self.backgroundView.subviews) {
+    subview.center = [self.grid centerOfCellAtIndex:i++];
+  }
+}
+
+- (void)awakeFromNib {
+  [super awakeFromNib];
+  [self resetGame];
+  _grid = [[Grid alloc] init];
+  _cardViewsToRemove = [[NSMutableArray alloc] init];
 }
 
 - (CardMatchingGame *)game{
@@ -36,49 +63,23 @@ static int gameMode = DEFAULT_MODE;
 
 - (IBAction)touchStartNewGameButton:(UIButton *)sender {
     [self resetGame];
-    self.modeButton.enabled = YES;
-    [self updateUI];
 }
 
+
+#define DEFAULT_INITIAL_CARD_COUNT 30
 - (void)resetGame{
-  _game = [[CardMatchingGame alloc] initWithCardCount:_cardButtons.count usingDeck:[self createDeck] usingGameMode:gameMode];
-  self.resultLabel.text = @"Result: new game";
-  [self.gameHistory appendAttributedString:[[NSAttributedString alloc] initWithString:@"New game started\n"]];
+  _game = [[CardMatchingGame alloc] initWithCardCount:DEFAULT_INITIAL_CARD_COUNT usingDeck:[self createDeck] usingGameMode:gameMode];
 }
+
+#define VERTICAL_BOUNDS_BUFFER 10
+#define HORIZONTAL_BOUNDS_BUFFER 30 // seems to work after trial and error; should figure out why it matters
 
 - (IBAction)touchCardButton:(UIButton *)sender {
   NSUInteger chosenButtonIndex = [self.cardButtons indexOfObject:sender];
-  NSInteger scoreBeforeAction = self.game.score;
-  NSString *outputString = [self.game chooseCardAtIndex:chosenButtonIndex];
-  NSInteger scoreAfterAction = self.game.score;
-  self.resultLabel.text = [NSString stringWithFormat:@"Result: %@", outputString];
-  if (scoreBeforeAction != scoreAfterAction && (![outputString isEqualToString:@""])){
-    [self.gameHistory appendAttributedString:[[NSAttributedString alloc] initWithString:outputString attributes:nil]];
-    [self.gameHistory appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" score is now: %ld \n", (long)self.game.score]                                                                      attributes:nil]];
-  }
+  [self.game chooseCardAndCheckMatchAtIndex:chosenButtonIndex];
   
-  self.modeButton.enabled = NO;
-  [self updateUI];
-}
-
-- (void)updateUI{
-    for (UIButton *cardButton in self.cardButtons){
-        NSUInteger cardButtonIndex = [self.cardButtons indexOfObject:cardButton];
-        Card *card = [self.game cardAtIndex:cardButtonIndex];
-        [cardButton setTitle:[self titleForCard:card] forState:UIControlStateNormal];
-        [cardButton setBackgroundImage:[self backgroundImageForCard:card] forState:UIControlStateNormal];
-        cardButton.enabled = !card.isMatched;
-        self.scorelabel.text = [NSString stringWithFormat:@"Score: %lli",
-                                (long long)self.game.score];
-    }
-}
-
-- (NSString *)titleForCard:(Card *)card{
-    return card.isChosen? card.contents : @"";
-}
-
-- (UIImage *)backgroundImageForCard:(Card *)card{
-    return [UIImage imageNamed:card.isChosen ? @"cardfront" : @"cardback"];
+  self.scorelabel.text = [NSString stringWithFormat:@"Score: %lli",
+                          (long long)self.game.score];
 }
 
 
@@ -86,16 +87,31 @@ static int gameMode = DEFAULT_MODE;
   return nil; //abstract!
 }
 
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-  if ([segue.destinationViewController isKindOfClass:[HistoryViewController class]]){
-    HistoryViewController *destinationHistoryController = (HistoryViewController *)segue.destinationViewController;
-    if (!destinationHistoryController.historyString) {
-      destinationHistoryController.historyString = [[NSMutableAttributedString alloc] initWithAttributedString:self.gameHistory];
-      return;
-    }
-    destinationHistoryController.historyString = self.gameHistory;
-  }
+
+- (void)setGridBounds{
+  _grid.size = CGSizeMake(self.view.bounds.size.width - HORIZONTAL_BOUNDS_BUFFER, self.view.bounds.size.height - VERTICAL_BOUNDS_BUFFER);
+  _grid.cellAspectRatio = 0.6;
+  _grid.minimumNumberOfCells = DEFAULT_INITIAL_CARD_COUNT;
+  assert(_grid.inputsAreValid);
 }
 
+- (Grid *)grid {
+  if (!_grid) _grid = [[Grid alloc] init];
+  return _grid;
+}
+
+- (void)animateRemovingCards:(NSArray *)cardsToRemove {
+  [UIView animateWithDuration:1.0 animations:^{
+    for (UIView *card in cardsToRemove){
+      int x = (arc4random()%(int)(self.backgroundView.bounds.size.width*5)) - (int)self.backgroundView.bounds.size.width*2;
+      int y = self.backgroundView.bounds.size.height;
+      card.center = CGPointMake(x, -y);
+    }
+  }
+                   completion:^(BOOL finished) {
+                     [cardsToRemove makeObjectsPerformSelector:@selector(removeFromSuperview)];
+                   }];
+  NSUUID *uuid = [NSUUID UUID];
+}
 
 @end

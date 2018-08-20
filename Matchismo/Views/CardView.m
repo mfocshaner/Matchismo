@@ -10,13 +10,10 @@
 
 @implementation CardView
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
+
+- (void)setAttributedFromCard:(Card *)card {
+  return; // abstract!
 }
-*/
 
 - (CGFloat)cornerScaleFactor {
   return self.bounds.size.height / CORNER_FONT_STANDARD_HEIGHT;
@@ -30,6 +27,8 @@
   return [self cornerRadius] / 3.0;
 }
 
+@synthesize strokeColor = _strokeColor;
+
 #define BUFFER_BETWEEN_CARDS 3
 - (void)drawRect:(CGRect)rect {
   self.bounds = CGRectMake(self.bounds.origin.x, self.bounds.origin.y, self.bounds.size.width - BUFFER_BETWEEN_CARDS,
@@ -41,16 +40,33 @@
   [[UIColor whiteColor] setFill];
   UIRectFill(self.bounds);
   
-  [[UIColor blackColor] setStroke];
+  [self.strokeColor setStroke];
   [roundedRect stroke];
 }
 
+- (void)setStrokeColor:(UIColor *)strokeColor {
+  _strokeColor = strokeColor;
+  [self setNeedsDisplay];
+}
+
+- (UIColor *)strokeColor {
+  if (!_strokeColor) {
+    _strokeColor = [UIColor blackColor];
+  }
+  return _strokeColor;
+}
+
 #pragma mark - Initialization
+
+- (void)viewDidLoad {
+  [self setup];
+}
 
 - (void)setup{
   self.backgroundColor = nil;
   self.opaque = NO;
   self.contentMode = UIViewContentModeRedraw;
+  self.strokeColor = [UIColor blackColor];
 }
 
 - (void)awakeFromNib {

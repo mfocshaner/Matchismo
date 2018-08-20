@@ -10,6 +10,7 @@
 #import "SetDeck.h"
 #import "SetGame.h"
 #import "SetCard.h"
+#import "SetCardView.h"
 
 @interface SetViewController ()
 
@@ -25,79 +26,49 @@ static int gameMode = 0;
   return [[SetDeck alloc] init];
 }
 
-- (void)updateUI {
-  for (UIButton *cardButton in self.cardButtons){
-    NSUInteger cardButtonIndex = [self.cardButtons indexOfObject:cardButton];
-    Card *card = [self.game cardAtIndex:cardButtonIndex];
-    NSAttributedString *title = card.contents;
-    [cardButton setAttributedTitle:title forState:UIControlStateNormal];
-    cardButton.enabled = !card.isMatched;
-    [self setCardBorder:cardButton ifChosen:(card.isChosen && !card.isMatched)];
-    self.scorelabel.text = [NSString stringWithFormat:@"Score: %lli",
-                            (long long)self.game.score];
+- (void)createCardViews {
+  for (NSInteger i = 0; i < self.game.cardCount; i++) {
+    SetCardView *createdCardView =
+    [[SetCardView alloc] initWithFrame:[self.grid frameOfCellAtIndex:i]];
+    [createdCardView setAttributedFromCard:[self.game cardAtIndex:i]];
+    [createdCardView setBackgroundColor:[UIColor clearColor]];
+    [createdCardView setUserInteractionEnabled:YES];
+    [self.backgroundView addSubview:createdCardView];
   }
 }
 
-- (void)setCardBorder:(UIButton *)cardButton ifChosen:(BOOL)chosen {
-  if (chosen){
-    cardButton.layer.borderWidth = 2.0f;
-    cardButton.layer.borderColor = [UIColor blueColor].CGColor;
-    cardButton.layer.cornerRadius = 7.0f;
-    return;
+- (IBAction)tapOnCard:(UITapGestureRecognizer *)sender {
+  CGPoint tapLocation = ([sender locationInView:self.backgroundView]);
+  UIView *tappedView = [self.backgroundView hitTest:tapLocation withEvent:nil];
+  if ([tappedView isKindOfClass:[SetCardView class]]){
+    [self touchCard:tappedView];
+    [UIView transitionWithView:(SetCardView*)tappedView duration:FLIP_ANIMATION_DURATION options:UIViewAnimationOptionTransitionFlipFromLeft animations:^(){
+    } completion:^(BOOL finished){
+      [self.cardViewsToRemove addObject:tappedView];
+      if (self.cardViewsToRemove.count > 8) {
+        [self animateRemovingCards:[self.cardViewsToRemove copy]];
+        [self.cardViewsToRemove removeAllObjects];
+      }
+    }];
   }
-  cardButton.layer.borderWidth=0;
 }
 
-- (NSString *)titleForCard:(Card *)card {
-  return card.contents;
-}
 
-- (NSAttributedString *)attributedTitleForCard:(SetCard *)card {
-  NSDictionary<NSString *, UIColor *> *colorsByName = @{
-                                 @"red": UIColor.redColor,
-                                 @"green": UIColor.greenColor,
-                                 @"purple": UIColor.purpleColor
-                                 };
-  NSDictionary<NSString *,NSNumber *> *alphaForShading = @{
-                                 @"solid": @1.0f,
-                                 @"striped": @0.5f,
-                                 @"open": @0.0f
-                                 };
-  
-  UIColor * colorAttribute = colorsByName[card.color];
-  CGFloat alphaValue = alphaForShading[card.shading].floatValue;
-  UIColor * colorAttributeWithAlpha = [colorAttribute colorWithAlphaComponent:alphaValue];
-  
-  NSNumber* strokeWidth = @-0.1f;
-  if ([card.shading  isEqual: @"open"]){
-    strokeWidth = @-6.0f;
+- (void)touchCard:(UIView *)tappedCardView {
+  NSUInteger chosenButtonIndex = [self.backgroundView.subviews indexOfObject:tappedCardView];
+  [self.game chooseCardAndCheckMatchAtIndex:chosenButtonIndex];
+  if ([self.game cardAtIndex:chosenButtonIndex].isChosen){
+    [(SetCardView *)tappedCardView setStrokeColor:[UIColor redColor]];
+  } else {
+    [(SetCardView *)tappedCardView setStrokeColor:[UIColor blackColor]];
   }
-  
-  NSDictionary <NSAttributedStringKey, id> *attributes = @{NSForegroundColorAttributeName:colorAttributeWithAlpha,                                                          NSStrokeWidthAttributeName:strokeWidth,                                                           NSStrokeColorAttributeName:colorAttribute,                                                                                                          };
-  
-  return [[NSAttributedString alloc] initWithString:card.contents attributes:attributes];
-}
 
-- (IBAction)touchCardButton:(UIButton *)sender {
-  NSUInteger chosenButtonIndex = [self.cardButtons indexOfObject:sender];
-  NSInteger scoreBeforeAction = self.game.score;
-  NSAttributedString *outputString = [self.game chooseCardAtIndex:chosenButtonIndex];
-  NSInteger scoreAfterAction = self.game.score;
-  self.resultLabel.attributedText = outputString;
-  if (scoreBeforeAction != scoreAfterAction){
-    [self.gameHistory appendAttributedString:outputString];
-     [self.gameHistory appendAttributedString:[[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@" score is now: %ld \n", (long)self.game.score]                                                                      attributes:nil]];
-  }
-  self.modeButton.enabled = NO;
-  [self updateUI];
 }
 
 
-
+#define SET_INITIAL_CARD_COUNT 12
 - (void)resetGame {
-  self.game = [[SetGame alloc] initWithCardCount: self.cardButtons.count usingDeck:[self createDeck] usingGameMode:gameMode];
-  self.resultLabel.text = @"Result: new game";
-  [self.gameHistory appendAttributedString:[[NSAttributedString alloc] initWithString:@"New game started\n"]];
+  self.game = [[SetGame alloc] initWithCardCount: SET_INITIAL_CARD_COUNT usingDeck:[self createDeck] usingGameMode:gameMode];
 }
 
 @end
