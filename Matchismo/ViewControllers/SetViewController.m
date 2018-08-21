@@ -14,17 +14,19 @@
 
 @interface SetViewController ()
 
-@property (nonatomic, strong) NSMutableArray <SetCardView *> *chosenCardViews;
+@property (strong, nonatomic) IBOutlet UIButton *HitMeButton;
+
 
 @end
 
 @implementation SetViewController
 
 static int gameMode = 0;
-static const int DEFAULT_INIT_CARDS = 12;
+static const int DEFAULT_INIT_CARDS = 18;
 
 - (void)initGame {
   self.game = [[SetGame alloc] initWithCardCount:DEFAULT_INIT_CARDS usingDeck:[self createDeck] usingGameMode:gameMode];
+  self.defaultInitialCardNumber = DEFAULT_INIT_CARDS;
 }
 
 - (Deck *)createDeck {
@@ -39,6 +41,48 @@ static const int DEFAULT_INIT_CARDS = 12;
     [createdCardView setBackgroundColor:[UIColor clearColor]];
     [createdCardView setUserInteractionEnabled:YES];
     [self.backgroundView addSubview:createdCardView];
+  }
+}
+
+- (void)createCardsOutOfView {
+  CGRect outerPointRect = CGRectMake(self.view.bounds.size.width, self.view.bounds.size.height, [self.grid frameOfCellAtIndex:0].size.width, [self.grid frameOfCellAtIndex:0].size.height);
+  
+  for (NSInteger i = 0; i < self.game.cardCount; i++) {
+    SetCardView *createdCardView =
+    [[SetCardView alloc] initWithFrame:outerPointRect];
+    [createdCardView setAttributedFromCard:[self.game cardAtIndex:i]];
+    [createdCardView setBackgroundColor:[UIColor clearColor]];
+    [createdCardView setUserInteractionEnabled:YES];
+    [self.backgroundView addSubview:createdCardView];
+    [UIView animateWithDuration:1.0 animations:^{
+      [createdCardView setFrame:[self.grid frameOfCellAtIndex:i]];
+    }
+     ];
+  }
+}
+
+#define NUMBER_OF_CARDS_TO_ADD 3
+- (IBAction)hitMePressed:(UIButton *)sender {
+  [self insertNewCards:NUMBER_OF_CARDS_TO_ADD];
+}
+
+- (void)insertNewCards:(NSUInteger)numberOfCardsToAdd {
+  NSUInteger currentCount = self.backgroundView.subviews.count;
+  CGRect outerPointRect = CGRectMake(self.view.bounds.size.width, self.view.bounds.size.height, [self.grid frameOfCellAtIndex:0].size.width, [self.grid frameOfCellAtIndex:0].size.height);
+  
+  for (NSInteger i = currentCount; i < currentCount+numberOfCardsToAdd; i++) {
+    if ([self.game drawNewCardFromDeckToGameCards]) {
+      SetCardView *createdCardView =
+      [[SetCardView alloc] initWithFrame:outerPointRect];
+      [createdCardView setAttributedFromCard:[self.game cardAtIndex:i]];
+      [createdCardView setBackgroundColor:[UIColor clearColor]];
+      [createdCardView setUserInteractionEnabled:YES];
+      [self.backgroundView addSubview:createdCardView];
+      [UIView animateWithDuration:1.0 animations:^{
+        [createdCardView setFrame:[self.grid frameOfCellAtIndex:i]];
+      }
+       ];
+    }
   }
 }
 
@@ -58,8 +102,6 @@ static const int DEFAULT_INIT_CARDS = 12;
                                         }];
                      }];
     [self touchCard:tappedView];
-    // [self animateRemovingCards:[self.cardViewsToRemove copy]];
-    // [self.cardViewsToRemove removeAllObjects];
       }
 }
 
@@ -89,14 +131,47 @@ static const int DEFAULT_INIT_CARDS = 12;
 }
 
 - (void)matchActions {
-  [self animateRemovingCards:[self.chosenCardViews copy]];
   NSMutableArray *cardsToRemoveFromGame = [[NSMutableArray alloc] init];
+  
+  NSUInteger viewsCount = self.backgroundView.subviews.count;
   for (SetCardView *cardView in self.chosenCardViews) {
     NSUInteger viewIndex = [self.backgroundView.subviews indexOfObject:cardView];
     [cardsToRemoveFromGame addObject:[self.game cardAtIndex:viewIndex]];
+  } // after we got indices of cards (in game.cards) we can remove the views safely
+  
+  [UIView animateWithDuration:0.5 animations:^{
+    for (UIView *card in self.chosenCardViews){
+      int x = (arc4random()%(int)(self.backgroundView.bounds.size.width*5)) - (int)self.backgroundView.bounds.size.width*2;
+      int y = self.backgroundView.bounds.size.height;
+      card.center = CGPointMake(x, -y);
+    }
   }
-  [self.game removeCardsFromGame:cardsToRemoveFromGame];
-  [self.chosenCardViews removeAllObjects];
+                   completion:^(BOOL finished) {
+                     for (UIView *card in self.chosenCardViews) {
+                       [card removeFromSuperview];
+                     }
+                     [self reorganizeCardViews];
+                     [self.startNewGameButton setEnabled:YES];
+                     
+                     [self.game removeCardsFromGame:cardsToRemoveFromGame];
+                     [self.chosenCardViews removeAllObjects];
+                     if (self.game.cardCount < self.defaultInitialCardNumber){
+                       [self insertNewCards:(self.defaultInitialCardNumber - self.game.cardCount)];
+                     }
+                   }];
+  
+//  [self animateRemovingCards:[self.chosenCardViews copy]];
+//
+//  for (SetCardView *cardView in self.chosenCardViews) {
+//    [self animateRemovingCards:@[cardView]];
+//    //[cardView removeFromSuperview];
+//  }
+  
+//  [self.game removeCardsFromGame:cardsToRemoveFromGame];
+//  [self.chosenCardViews removeAllObjects];
+//  if (self.game.cardCount < self.defaultInitialCardNumber){
+//    [self insertNewCards:(self.defaultInitialCardNumber - self.game.cardCount)];
+//  }
 }
 
 - (void)unchooseAllChosen {
@@ -109,9 +184,8 @@ static const int DEFAULT_INIT_CARDS = 12;
   [self.chosenCardViews removeAllObjects];
 }
 
-#define DEFAULT_INITIAL_CARD_COUNT 12
 - (void)resetGame {
-  _chosenCardViews = [[NSMutableArray<Card *> alloc] init];
+  self.chosenCardViews = [[NSMutableArray<SetCardView *> alloc] init];
   [self animateRemovingCards:self.backgroundView.subviews];
   self.game = [[SetGame alloc] initWithCardCount: DEFAULT_INIT_CARDS usingDeck:[self createDeck] usingGameMode:gameMode];
   self.scorelabel.text = [NSString stringWithFormat:@"Score: %lli",
@@ -120,22 +194,6 @@ static const int DEFAULT_INIT_CARDS = 12;
   
 }
 
-- (void)createCardsOutOfView {
-  CGRect outerPointRect = CGRectMake(self.view.bounds.size.width, self.view.bounds.size.height, [self.grid frameOfCellAtIndex:0].size.width, [self.grid frameOfCellAtIndex:0].size.height);
-//    CGRect outerPointRect = CGRectMake(0, 0, [self.grid frameOfCellAtIndex:0].size.width, [self.grid frameOfCellAtIndex:0].size.height);
 
-  for (NSInteger i = 0; i < self.game.cardCount; i++) {
-    SetCardView *createdCardView =
-    [[SetCardView alloc] initWithFrame:outerPointRect];
-    [createdCardView setAttributedFromCard:[self.game cardAtIndex:i]];
-    [createdCardView setBackgroundColor:[UIColor clearColor]];
-    [createdCardView setUserInteractionEnabled:YES];
-    [self.backgroundView addSubview:createdCardView];
-    [UIView animateWithDuration:1.0 animations:^{
-        [createdCardView setFrame:[self.grid frameOfCellAtIndex:i]];
-    }
-     ];
-  }
-}
 
 @end

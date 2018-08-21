@@ -43,11 +43,35 @@ static const int DEFAULT_INIT_CARDS = 30;
 
 - (void)viewWillLayoutSubviews {
   [super viewWillLayoutSubviews];
+  [self reorganizeCardViews];
+}
+
+- (void)reorganizeCardViews {
   [self setGridBounds];
-  NSUInteger i = 0;
   for (UIView *subview in self.backgroundView.subviews) {
-    subview.center = [self.grid centerOfCellAtIndex:i++];
+    [UIView animateWithDuration:0.5 animations:^{
+      NSUInteger indexOfView = [self.backgroundView.subviews indexOfObject:subview];
+      [subview setFrame:[self.grid frameOfCellAtIndex:indexOfView]];
+    }
+     ];
   }
+}
+
+- (void)animateRemovingCards:(NSArray *)cardsToRemove {
+  [UIView animateWithDuration:0.5 animations:^{
+    for (UIView *card in cardsToRemove){
+      int x = (arc4random()%(int)(self.backgroundView.bounds.size.width*5)) - (int)self.backgroundView.bounds.size.width*2;
+      int y = self.backgroundView.bounds.size.height;
+      card.center = CGPointMake(x, -y);
+    }
+  }
+                   completion:^(BOOL finished) {
+                     for (UIView *card in cardsToRemove) {
+                       [card removeFromSuperview];
+                     }
+                     [self reorganizeCardViews];
+                     [self.startNewGameButton setEnabled:YES];
+                   }];
 }
 
 #define DEFAULT_INITIAL_CARD_COUNT 30
@@ -56,6 +80,7 @@ static const int DEFAULT_INIT_CARDS = 30;
   _game = [[CardMatchingGame alloc] initWithCardCount:DEFAULT_INIT_CARDS usingDeck:[self createDeck] usingGameMode:gameMode];
   _grid = [[Grid alloc] init];
   _cardViewsToRemove = [[NSMutableArray alloc] init];
+  _chosenCardViews = [[NSMutableArray alloc] init];
 }
 
 - (CardMatchingGame *)game{
@@ -64,7 +89,8 @@ static const int DEFAULT_INIT_CARDS = 30;
 }
 
 - (IBAction)touchStartNewGameButton:(UIButton *)sender {
-    [self resetGame];
+  sender.enabled = NO;
+  [self resetGame];
 }
 
 - (void)initGame {
@@ -78,14 +104,6 @@ static const int DEFAULT_INIT_CARDS = 30;
 
 #define VERTICAL_BOUNDS_BUFFER 10
 #define HORIZONTAL_BOUNDS_BUFFER 30 // seems to work after trial and error; should figure out why it matters
-
-- (IBAction)touchCardButton:(UIButton *)sender {
-  NSUInteger chosenButtonIndex = [self.cardButtons indexOfObject:sender];
-  [self.game chooseCardAndCheckMatchAtIndex:chosenButtonIndex];
-  
-  self.scorelabel.text = [NSString stringWithFormat:@"Score: %lli",
-                          (long long)self.game.score];
-}
 
 
 - (Deck *)createDeck{
@@ -105,18 +123,6 @@ static const int DEFAULT_INIT_CARDS = 30;
   return _grid;
 }
 
-- (void)animateRemovingCards:(NSArray *)cardsToRemove {
-  [UIView animateWithDuration:1.0 animations:^{
-    for (UIView *card in cardsToRemove){
-      int x = (arc4random()%(int)(self.backgroundView.bounds.size.width*5)) - (int)self.backgroundView.bounds.size.width*2;
-      int y = self.backgroundView.bounds.size.height;
-      card.center = CGPointMake(x, -y);
-    }
-  }
-                   completion:^(BOOL finished) {
-                     [cardsToRemove makeObjectsPerformSelector:@selector(removeFromSuperview)];
-                   }];
-  NSUUID *uuid = [NSUUID UUID];
-}
+
 
 @end

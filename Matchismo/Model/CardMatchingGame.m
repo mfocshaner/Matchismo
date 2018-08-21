@@ -14,6 +14,7 @@
 @property (nonatomic, readwrite) NSInteger score;
 @property (nonatomic, strong) NSMutableArray<Card *> *cards;
 @property (nonatomic) NSUInteger gameMode;
+@property (nonatomic, strong) Deck *deck;
 
 @end
 
@@ -33,8 +34,9 @@
                              usingGameMode:(NSUInteger)gameModeArg {
   if (self = [super init]){
     _cards = [[NSMutableArray<Card *> alloc] init];
+    _deck = deck;
     for (int i = 0; i < count; i++) {
-      Card *card = [deck drawRandomCard];
+      Card *card = [_deck drawRandomCard];
       if (card) {
         [self.cards addObject:card];
       } else {
@@ -46,6 +48,15 @@
   }
   self.gameMode = gameModeArg;
   return self;
+}
+
+- (BOOL)drawNewCardFromDeckToGameCards {
+  Card *card = [self.deck drawRandomCard];
+  if (card) {
+    [self.cards addObject:card];
+    return YES;
+  }
+  return NO;
 }
 
 

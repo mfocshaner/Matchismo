@@ -64,7 +64,7 @@ static const int COST_TO_CHOOSE = 1;
 
 - (BOOL)mismatchActions {
   self.score -= COST_TO_CHOOSE;
-  // [self unchooseAllCards];
+  
   [self.chosenCards removeAllObjects];
   return NO;
 }

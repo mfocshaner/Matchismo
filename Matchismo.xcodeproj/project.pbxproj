@@ -198,12 +198,12 @@
 				F41654D42116DAA6009997C4 /* Deck.m */,
 				F41654D62116E039009997C4 /* PlayingCardDeck.h */,
 				F41654D72116E039009997C4 /* PlayingCardDeck.m */,
+				F4B83A51211C19F60005DCCE /* SetDeck.h */,
+				F4B83A52211C19F60005DCCE /* SetDeck.m */,
 				F41654DB21181DBA009997C4 /* CardMatchingGame.h */,
 				F41654DC21181DBA009997C4 /* CardMatchingGame.m */,
 				F4B83A5D211C4B560005DCCE /* SetGame.h */,
 				F4B83A5E211C4B560005DCCE /* SetGame.m */,
-				F4B83A51211C19F60005DCCE /* SetDeck.h */,
-				F4B83A52211C19F60005DCCE /* SetDeck.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";

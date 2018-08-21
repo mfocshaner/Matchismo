@@ -119,6 +119,16 @@
                                     <outletCollection property="gestureRecognizers" destination="UIJ-8f-DhD" appends="YES" id="k27-nS-KiJ"/>
                                 </connections>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eih-Ad-k1i">
+                                <rect key="frame" x="175" y="648" width="64" height="39"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Hit me!" backgroundImage="cardfront">
+                                    <color key="titleColor" red="0.085577733814716339" green="0.21601095795631409" blue="0.44676065444946289" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="hitMePressed:" destination="Zrd-oP-a8r" eventType="touchUpInside" id="RUE-Lb-nGU"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.56284224989999998" blue="0.31881666180000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <viewLayoutGuide key="safeArea" id="AJS-GE-JVM"/>
@@ -126,8 +136,10 @@
                     <tabBarItem key="tabBarItem" title="Set" id="9yb-2k-ZUd"/>
                     <navigationItem key="navigationItem" id="Jf8-vd-hPd"/>
                     <connections>
+                        <outlet property="HitMeButton" destination="eih-Ad-k1i" id="mzW-fB-QiR"/>
                         <outlet property="backgroundView" destination="akT-zS-nA0" id="1gF-cI-sKg"/>
                         <outlet property="scorelabel" destination="pXY-6B-TDR" id="SiL-EX-n2H"/>
+                        <outlet property="startNewGameButton" destination="LEz-ly-0oR" id="IEK-sq-cdp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wba-HZ-ODD" userLabel="First Responder" sceneMemberID="firstResponder"/>

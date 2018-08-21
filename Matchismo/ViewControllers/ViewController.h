@@ -16,8 +16,6 @@
 
 @interface ViewController : UIViewController
 
-@property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *cardButtons;
-
 @property (strong, nonatomic) IBOutlet UIButton *startNewGameButton;
 
 @property (weak, nonatomic) IBOutlet UILabel *scorelabel;
@@ -28,10 +26,12 @@
 @property (weak, nonatomic) IBOutlet UIView *backgroundView;
 @property (strong, nonatomic) NSMutableArray <UIView *> *cardViewsToRemove;
 @property (nonatomic) NSInteger defaultInitialCardNumber;
+@property (nonatomic, strong) NSMutableArray <UIView *> *chosenCardViews;
 
 - (Deck *)createDeck;
 - (void)animateRemovingCards:(NSArray *)cardsToRemove;
 #define FLIP_ANIMATION_DURATION 0.3
+- (void)reorganizeCardViews;
 
 @end
 
