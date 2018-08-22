@@ -28,10 +28,15 @@
 @property (nonatomic) NSInteger defaultInitialCardNumber;
 @property (nonatomic, strong) NSMutableArray <UIView *> *chosenCardViews;
 
+@property (nonatomic, strong) NSUUID *uuid;
+
+@property (nonatomic, getter=isPiled) BOOL piled;
+
 - (Deck *)createDeck;
 - (void)animateRemovingCards:(NSArray *)cardsToRemove;
 #define FLIP_ANIMATION_DURATION 0.3
 - (void)reorganizeCardViews:(NSUInteger)numCards;
+- (IBAction)tapOnCard:(UITapGestureRecognizer *)sender;
 
 @end
 

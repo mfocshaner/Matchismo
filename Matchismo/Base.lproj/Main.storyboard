@@ -48,6 +48,8 @@
                                 <gestureRecognizers/>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="aux-3x-fIr" appends="YES" id="Gdi-tD-eYj"/>
+                                    <outletCollection property="gestureRecognizers" destination="nUE-ay-WaL" appends="YES" id="str-ay-EGl"/>
+                                    <outletCollection property="gestureRecognizers" destination="yqQ-cB-2Co" appends="YES" id="pm7-I7-2ta"/>
                                 </connections>
                             </view>
                         </subviews>
@@ -64,6 +66,8 @@
                     <navigationItem key="navigationItem" id="29m-DG-iew"/>
                     <connections>
                         <outlet property="backgroundView" destination="LCx-ui-Dsd" id="AJL-5m-H6W"/>
+                        <outlet property="panRecognizer" destination="nUE-ay-WaL" id="h18-Gf-Xki"/>
+                        <outlet property="pinchRecognizer" destination="yqQ-cB-2Co" id="eye-02-aCq"/>
                         <outlet property="scorelabel" destination="Loc-2a-3N6" id="TJa-Is-QEI"/>
                         <outlet property="startNewGameButton" destination="oa5-7x-xgb" id="bJs-Qe-K28"/>
                     </connections>
@@ -74,6 +78,16 @@
                         <action selector="tapOnCard:" destination="BYZ-38-t0r" id="emd-Vd-xrY"/>
                     </connections>
                 </tapGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="nUE-ay-WaL">
+                    <connections>
+                        <action selector="panAction:" destination="BYZ-38-t0r" id="nN1-yk-43q"/>
+                    </connections>
+                </panGestureRecognizer>
+                <pinchGestureRecognizer id="yqQ-cB-2Co">
+                    <connections>
+                        <action selector="userPinched:" destination="BYZ-38-t0r" id="aEk-kt-nSU"/>
+                    </connections>
+                </pinchGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-786.95652173913049" y="-165.48913043478262"/>
         </scene>
@@ -116,6 +130,8 @@
                                 <gestureRecognizers/>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="UIJ-8f-DhD" appends="YES" id="k27-nS-KiJ"/>
+                                    <outletCollection property="gestureRecognizers" destination="1Ua-wC-7hG" appends="YES" id="htM-Ir-Kt5"/>
+                                    <outletCollection property="gestureRecognizers" destination="xdN-5n-3DZ" appends="YES" id="scQ-St-NOP"/>
                                 </connections>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eih-Ad-k1i">
@@ -163,6 +179,8 @@
                     <connections>
                         <outlet property="HitMeButton" destination="eih-Ad-k1i" id="mzW-fB-QiR"/>
                         <outlet property="backgroundView" destination="akT-zS-nA0" id="1gF-cI-sKg"/>
+                        <outlet property="panRecognizer" destination="xdN-5n-3DZ" id="jyl-Lw-ojf"/>
+                        <outlet property="pinchRecognizer" destination="1Ua-wC-7hG" id="skE-Ik-8Jf"/>
                         <outlet property="scorelabel" destination="pXY-6B-TDR" id="SiL-EX-n2H"/>
                         <outlet property="startNewGameButton" destination="LEz-ly-0oR" id="mG1-Qy-jo1"/>
                     </connections>
@@ -173,6 +191,16 @@
                         <action selector="tapOnCard:" destination="Zrd-oP-a8r" id="d11-YN-rwC"/>
                     </connections>
                 </tapGestureRecognizer>
+                <pinchGestureRecognizer id="1Ua-wC-7hG">
+                    <connections>
+                        <action selector="userPinched:" destination="Zrd-oP-a8r" id="gGz-fT-9UL"/>
+                    </connections>
+                </pinchGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="xdN-5n-3DZ">
+                    <connections>
+                        <action selector="panAction:" destination="Zrd-oP-a8r" id="9qb-pp-w1S"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-788.40579710144937" y="493.20652173913049"/>
         </scene>

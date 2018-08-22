@@ -132,17 +132,21 @@ static const int DEFAULT_INIT_CARDS = 18;
   }
 }
 
+
+
 #pragma mark Card Interactions
 
 - (IBAction)tapOnCard:(UITapGestureRecognizer *)sender {
+  if (self.piled) {
+    [super tapOnCard:sender];
+    return;
+  }
   CGPoint tapLocation = ([sender locationInView:self.backgroundView]);
   UIView *tappedView = [self.backgroundView hitTest:tapLocation withEvent:nil];
   if ([tappedView isKindOfClass:[SetCardView class]]){
         [UIView animateWithDuration:0.05
                          animations:^{
                            tappedView.transform = CGAffineTransformMakeScale(1.05, 1.05);
-                         }
-                         completion:^(BOOL finished) {
                          }];
     [self touchCard:tappedView];
   }

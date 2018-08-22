@@ -11,7 +11,11 @@
 
 @interface ViewController ()
 
+@property (strong, nonatomic) IBOutlet UIPinchGestureRecognizer *pinchRecognizer;
+@property (strong, nonatomic) IBOutlet UIPanGestureRecognizer *panRecognizer;
 
+@property (strong, nonatomic) UIDynamicAnimator *animator;
+@property (strong, nonatomic) UIAttachmentBehavior *attachment;
 
 
 @end
@@ -94,7 +98,97 @@ static const int DEFAULT_INIT_CARDS = 30;
   _grid = [[Grid alloc] init];
   _cardViewsToRemove = [[NSMutableArray alloc] init];
   _chosenCardViews = [[NSMutableArray alloc] init];
+  [self initRecognizersAndAnimator];
 }
+
+#pragma mark Pinching
+
+- (void)initRecognizersAndAnimator {
+  _animator = [[UIDynamicAnimator alloc] initWithReferenceView:self.backgroundView];
+  _animator.delegate = self;
+  _pinchRecognizer = [[UIPinchGestureRecognizer alloc] init];
+  _panRecognizer = [[UIPanGestureRecognizer alloc] init];
+  _piled = NO;
+}
+
+- (IBAction)userPinched:(UIPinchGestureRecognizer *)sender {
+  if (self.piled) {
+    return;
+  }
+  if (sender.state == UIGestureRecognizerStateEnded){
+    CGPoint gesturePoint = [sender locationInView:self.view];
+    UIView *lastView = self.backgroundView.subviews.lastObject;
+self.attachment = [[UIAttachmentBehavior alloc] initWithItem:lastView attachedToAnchor:gesturePoint];
+    for (int i = 0; i < self.backgroundView.subviews.count; i++) {
+      CardView *view = (CardView *)self.backgroundView.subviews[i];
+
+      [UIView animateWithDuration:0.3 animations:^{
+        view.center = gesturePoint;
+      } completion:^(BOOL finished) {
+        if (i == self.backgroundView.subviews.count - 1) {
+          return;
+        }
+        CardView *viewToAttach = (CardView *)self.backgroundView.subviews[i+1];
+        [view setAttachment:[[UIAttachmentBehavior alloc] initWithItem:view attachedToItem:viewToAttach]];
+        //view.attachment.attachedBehaviorType = [UIAttachmentBehavior Attachment
+        [self.animator addBehavior:view.attachment];
+      }
+       ];
+      
+    }
+    
+    [self.animator addBehavior:self.attachment];
+    self.piled = YES;
+  }
+}
+
+- (IBAction)panAction:(UIPanGestureRecognizer *)sender {
+  if (self.animator.behaviors.count){
+    if (sender.state == UIGestureRecognizerStateBegan){
+      CGPoint gesturePoint = [sender locationInView:self.view];
+//      for (UIView *cardView in self.backgroundView.subviews) {
+//        [UIView animateWithDuration:0.4
+//                              animations:^{
+//                           cardView.center = gesturePoint;
+//                         }
+//         ];
+//      }
+      
+//      lastView.attachment.anchorPoint = gesturePoint;
+
+      CardView *lastView = self.backgroundView.subviews.lastObject;
+            [UIView animateWithDuration:0.3
+                       animations:^{
+                         lastView.center = gesturePoint;
+                       }];
+    }
+    else if (sender.state == UIGestureRecognizerStateChanged){
+    CGPoint gesturePoint = [sender locationInView:self.view];
+    self.attachment.anchorPoint = gesturePoint;
+      for (UIView *cardView in self.backgroundView.subviews) {
+        [[(CardView *)cardView attachment] setAnchorPoint:gesturePoint];
+      }
+    }
+    else if (sender.state == UIGestureRecognizerStateEnded){
+      // [self.animator removeBehavior:_attachment];
+    }
+  }
+}
+
+- (IBAction)tapOnCard:(UITapGestureRecognizer *)sender {
+  if (!self.piled) {
+    return;
+  } else {
+    CGPoint tapLocation = ([sender locationInView:self.backgroundView]);
+    UIView *tappedView = [self.backgroundView hitTest:tapLocation withEvent:nil];
+    if (tappedView == self.backgroundView.subviews.lastObject) {
+      self.piled = NO;
+      [self.animator removeAllBehaviors];
+      [self reorganizeCardViews:self.game.cardCount];
+    }
+}
+}
+
 
 - (CardMatchingGame *)game{
   if (!_game) {[self resetGame];};

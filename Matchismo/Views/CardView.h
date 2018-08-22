@@ -17,6 +17,8 @@
 @property (strong, nonatomic) UIColor *strokeColor;
 @property (nonatomic, getter=isChosen) BOOL chosen;
 
+@property (nonatomic, strong) UIAttachmentBehavior *attachment;
+
 - (CGFloat)cornerScaleFactor;
 - (CGFloat)cornerRadius;
 - (CGFloat)cornerOffset;

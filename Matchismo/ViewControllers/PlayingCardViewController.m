@@ -55,6 +55,10 @@ static const int defaultNumCards = 30;
 }
 
 - (IBAction)tapOnCard:(UITapGestureRecognizer *)sender {
+  if (self.piled) {
+    [super tapOnCard:sender];
+    return;
+  }
   CGPoint tapLocation = ([sender locationInView:self.backgroundView]);
   UIView *tappedView = [self.backgroundView hitTest:tapLocation withEvent:nil];
 
