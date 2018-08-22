@@ -183,6 +183,11 @@
     return _columnCount;
 }
 
+- (NSUInteger)numberOfCells {
+  [self validate];
+  return _rowCount * _columnCount;
+}
+
 - (CGSize)cellSize
 {
     [self validate];

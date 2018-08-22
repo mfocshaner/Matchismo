@@ -53,6 +53,10 @@
   [self setNeedsDisplay];
 }
 
+- (void)setMatched:(BOOL)matched {
+  _matched = matched;
+}
+
 - (void)setAttributedFromCard:(Card *)card {
   if (![card isKindOfClass:[PlayingCard class]]){
     return;
@@ -60,6 +64,7 @@
   PlayingCard *playingCard = (PlayingCard *)card;
   _rank = playingCard.rank;
   _suit = playingCard.suit;
+  _matched = playingCard.matched;
 }
 
 #pragma mark - Drawing

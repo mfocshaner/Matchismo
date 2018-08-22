@@ -20,6 +20,10 @@
     return _cards;
 }
 
+- (BOOL)isEmpty {
+  return (self.cards.count == 0);
+}
+
 - (void)addCard:(Card *)card atTop:(BOOL)atTop
 {
     if (atTop){

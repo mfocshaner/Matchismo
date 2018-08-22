@@ -31,7 +31,7 @@
 - (Deck *)createDeck;
 - (void)animateRemovingCards:(NSArray *)cardsToRemove;
 #define FLIP_ANIMATION_DURATION 0.3
-- (void)reorganizeCardViews;
+- (void)reorganizeCardViews:(NSUInteger)numCards;
 
 @end
 

@@ -60,11 +60,11 @@
   UIRectFill(self.bounds);
   
   [self.strokeColor setStroke];
-  if (self.chosen) {
-    CGContextStrokeRectWithWidth(UIGraphicsGetCurrentContext(), boundsWithBuffer, 3);
-  } else {
+//  if (self.chosen) {
+//    CGContextStrokeRectWithWidth(UIGraphicsGetCurrentContext(), boundsWithBuffer, 3);
+//  } else {
     [roundedRect stroke];
-  }
+//  }
 }
 
 #pragma mark - Initialization

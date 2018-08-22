@@ -59,6 +59,9 @@
   return NO;
 }
 
+- (BOOL)isDeckEmpty {
+  return self.deck.isEmpty;
+}
 
 - (Card *)cardAtIndex:(NSUInteger)index{
     return (index < self.cards.count) ? self.cards[index] : nil;

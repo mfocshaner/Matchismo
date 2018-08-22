@@ -18,9 +18,12 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oa5-7x-xgb">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oa5-7x-xgb">
                                 <rect key="frame" x="340" y="648" width="54" height="39"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="54" id="ag7-Qy-6gc"/>
+                                    <constraint firstAttribute="height" constant="39" id="dcv-hL-jDq"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="18"/>
                                 <state key="normal" title="NEW" backgroundImage="cardfront">
                                     <color key="titleColor" red="0.58105844259999995" green="0.12855249639999999" blue="0.57453137639999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -29,9 +32,11 @@
                                     <action selector="touchStartNewGameButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="dbJ-CO-Dum"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Score: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Loc-2a-3N6">
-                                <rect key="frame" x="20" y="666" width="374" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Score: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Loc-2a-3N6">
+                                <rect key="frame" x="20" y="666" width="64" height="21"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="21" id="GV0-1r-crC"/>
+                                </constraints>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
@@ -47,6 +52,12 @@
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.56284224989999998" blue="0.31881666180000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="oa5-7x-xgb" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="ELj-9M-2Bf"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="oa5-7x-xgb" secondAttribute="trailing" constant="20" id="KO8-LP-cqO"/>
+                            <constraint firstItem="Loc-2a-3N6" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="eri-uQ-Kgs"/>
+                            <constraint firstItem="Loc-2a-3N6" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="wbL-P3-igD"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Matchismo" id="o46-Rw-W6q"/>
@@ -92,26 +103,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Score: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pXY-6B-TDR">
-                                <rect key="frame" x="20" y="666" width="374" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Score: 0" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pXY-6B-TDR">
+                                <rect key="frame" x="20" y="667" width="156" height="20"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LEz-ly-0oR">
-                                <rect key="frame" x="340" y="648" width="54" height="39"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="18"/>
-                                <state key="normal" title="NEW" backgroundImage="cardfront">
-                                    <color key="titleColor" red="0.58105844259999995" green="0.12855249639999999" blue="0.57453137639999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                </state>
-                                <connections>
-                                    <action selector="touchStartNewGameButton:" destination="Zrd-oP-a8r" eventType="touchUpInside" id="Tzu-ZY-Uxh"/>
-                                </connections>
-                            </button>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="akT-zS-nA0">
-                                <rect key="frame" x="20" y="20" width="374" height="620"/>
+                                <rect key="frame" x="20" y="20" width="374" height="611"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" red="0.0" green="0.56284224989999998" blue="0.31881666180000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <gestureRecognizers/>
@@ -119,9 +118,12 @@
                                     <outletCollection property="gestureRecognizers" destination="UIJ-8f-DhD" appends="YES" id="k27-nS-KiJ"/>
                                 </connections>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eih-Ad-k1i">
-                                <rect key="frame" x="175" y="648" width="64" height="39"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eih-Ad-k1i">
+                                <rect key="frame" x="175" y="647" width="64" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="64" id="0Fb-gh-hHM"/>
+                                    <constraint firstAttribute="height" constant="40" id="ZcU-ez-QzF"/>
+                                </constraints>
                                 <state key="normal" title="Hit me!" backgroundImage="cardfront">
                                     <color key="titleColor" red="0.085577733814716339" green="0.21601095795631409" blue="0.44676065444946289" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 </state>
@@ -129,8 +131,31 @@
                                     <action selector="hitMePressed:" destination="Zrd-oP-a8r" eventType="touchUpInside" id="RUE-Lb-nGU"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="LEz-ly-0oR">
+                                <rect key="frame" x="339" y="647" width="64" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="1h8-UZ-gRD"/>
+                                    <constraint firstAttribute="width" constant="64" id="rhd-2k-dkq"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="18"/>
+                                <state key="normal" title="NEW" backgroundImage="cardfront">
+                                    <color key="titleColor" red="0.58105844259999995" green="0.12855249639999999" blue="0.57453137639999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    <color key="titleShadowColor" red="0.085577733814716339" green="0.21601095795631409" blue="0.44676065444946289" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="touchStartNewGameButton:" destination="Zrd-oP-a8r" eventType="touchUpInside" id="Tzu-ZY-Uxh"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.56284224989999998" blue="0.31881666180000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="LEz-ly-0oR" firstAttribute="trailing" secondItem="AJS-GE-JVM" secondAttribute="trailing" id="2mE-wW-SHv"/>
+                            <constraint firstItem="eih-Ad-k1i" firstAttribute="centerX" secondItem="AJS-GE-JVM" secondAttribute="centerX" id="GX3-Ne-eiM"/>
+                            <constraint firstItem="LEz-ly-0oR" firstAttribute="bottom" secondItem="AJS-GE-JVM" secondAttribute="bottom" id="OZB-mA-Ywi"/>
+                            <constraint firstItem="pXY-6B-TDR" firstAttribute="bottom" secondItem="AJS-GE-JVM" secondAttribute="bottom" id="Z4S-Uu-aOC"/>
+                            <constraint firstItem="eih-Ad-k1i" firstAttribute="bottom" secondItem="AJS-GE-JVM" secondAttribute="bottom" id="gaf-Wn-yi5"/>
+                            <constraint firstItem="pXY-6B-TDR" firstAttribute="leading" secondItem="AJS-GE-JVM" secondAttribute="leading" constant="20" id="zQe-wg-VYc"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="AJS-GE-JVM"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Set" id="9yb-2k-ZUd"/>

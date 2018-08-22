@@ -10,9 +10,6 @@
 
 @interface SetCardView : CardView
 
-@property (nonatomic) NSUInteger rank;
-@property (strong, nonatomic) NSString *suit;
-
 @property (strong, nonatomic) NSString *symbol;
 @property (strong, nonatomic) NSString *shading;
 @property (strong, nonatomic) NSString *color;

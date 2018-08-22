@@ -27,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)matchAllChosen;
 - (void)removeCardsFromGame:(NSArray *)cardsToRemove;
 - (BOOL)drawNewCardFromDeckToGameCards;
+- (BOOL)isDeckEmpty;
 
 @property (nonatomic, readonly) NSInteger score;
 
