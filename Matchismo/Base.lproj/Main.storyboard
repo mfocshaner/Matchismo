@@ -65,7 +65,7 @@
                     <connections>
                         <outlet property="backgroundView" destination="LCx-ui-Dsd" id="AJL-5m-H6W"/>
                         <outlet property="scorelabel" destination="Loc-2a-3N6" id="TJa-Is-QEI"/>
-                        <outlet property="startNewGameButton" destination="oa5-7x-xgb" id="buc-b5-8PM"/>
+                        <outlet property="startNewGameButton" destination="oa5-7x-xgb" id="bJs-Qe-K28"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
@@ -164,7 +164,7 @@
                         <outlet property="HitMeButton" destination="eih-Ad-k1i" id="mzW-fB-QiR"/>
                         <outlet property="backgroundView" destination="akT-zS-nA0" id="1gF-cI-sKg"/>
                         <outlet property="scorelabel" destination="pXY-6B-TDR" id="SiL-EX-n2H"/>
-                        <outlet property="startNewGameButton" destination="LEz-ly-0oR" id="IEK-sq-cdp"/>
+                        <outlet property="startNewGameButton" destination="LEz-ly-0oR" id="mG1-Qy-jo1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wba-HZ-ODD" userLabel="First Responder" sceneMemberID="firstResponder"/>

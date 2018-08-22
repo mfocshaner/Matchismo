@@ -57,7 +57,6 @@ static const int defaultNumCards = 30;
 - (IBAction)tapOnCard:(UITapGestureRecognizer *)sender {
   CGPoint tapLocation = ([sender locationInView:self.backgroundView]);
   UIView *tappedView = [self.backgroundView hitTest:tapLocation withEvent:nil];
-//  NSUInteger chosenViewIndex = [self.backgroundView.subviews indexOfObject:tappedView];
 
   if ([tappedView isKindOfClass:[PlayingCardView class]]){
     if ([(PlayingCardView *)tappedView isMatched]) { return;}

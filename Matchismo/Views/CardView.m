@@ -49,9 +49,10 @@
 }
 
 #define BUFFER_BETWEEN_CARDS 3
+#define BUFFER_BETWEEN_CARDS_PERCENT 0.97
 - (void)drawRect:(CGRect)rect {
-  CGRect boundsWithBuffer = CGRectMake(self.bounds.origin.x, self.bounds.origin.y, self.bounds.size.width - BUFFER_BETWEEN_CARDS,
-                                       self.bounds.size.height - BUFFER_BETWEEN_CARDS);
+  CGRect boundsWithBuffer = CGRectMake(self.bounds.origin.x, self.bounds.origin.y, self.bounds.size.width*BUFFER_BETWEEN_CARDS_PERCENT,
+      self.bounds.size.height*BUFFER_BETWEEN_CARDS_PERCENT);
   UIBezierPath *roundedRect = [UIBezierPath bezierPathWithRoundedRect:boundsWithBuffer cornerRadius:[self cornerRadius]];
   
   [roundedRect addClip];
@@ -60,11 +61,7 @@
   UIRectFill(self.bounds);
   
   [self.strokeColor setStroke];
-//  if (self.chosen) {
-//    CGContextStrokeRectWithWidth(UIGraphicsGetCurrentContext(), boundsWithBuffer, 3);
-//  } else {
-    [roundedRect stroke];
-//  }
+  [roundedRect stroke];
 }
 
 #pragma mark - Initialization

@@ -58,6 +58,7 @@ static const int DEFAULT_INIT_CARDS = 30;
     [UIView animateWithDuration:0.5 animations:^{
       NSUInteger indexOfView = [self.backgroundView.subviews indexOfObject:subview];
       [subview setFrame:[self.grid frameOfCellAtIndex:indexOfView]];
+    } completion:^(BOOL finished) {
       if ([subview isEqual:[self.backgroundView.subviews lastObject]]){
         [self enableButtons];
       }
@@ -116,10 +117,6 @@ static const int DEFAULT_INIT_CARDS = 30;
   self.scorelabel.text = [NSString stringWithFormat:@"Score: %lli",
                           (long long)self.game.score];
 }
-
-#define VERTICAL_BOUNDS_BUFFER 100
-#define HORIZONTAL_BOUNDS_BUFFER 30 // seems to work after trial and error; should figure out why it matters
-
 
 - (Deck *)createDeck{
   return nil; //abstract!

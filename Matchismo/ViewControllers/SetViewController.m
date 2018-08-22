@@ -63,6 +63,10 @@ static const int DEFAULT_INIT_CARDS = 18;
     [self.backgroundView addSubview:createdCardView];
     [UIView animateWithDuration:1.0 animations:^{
       [createdCardView setFrame:[self.grid frameOfCellAtIndex:i]];
+    } completion:^(BOOL finished) {
+      if (i == self.game.cardCount - 1) {
+        [self enableButtons];
+      }
     }
      ];
   }
@@ -111,11 +115,12 @@ static const int DEFAULT_INIT_CARDS = 18;
 #define NUMBER_OF_CARDS_TO_ADD 3
 - (IBAction)hitMePressed:(UIButton *)sender {
   [self.startNewGameButton setEnabled:NO];
-  // [sender setEnabled:FALSE];
+  [sender setEnabled:NO];
   [self insertNewCards:NUMBER_OF_CARDS_TO_ADD];
   if (self.game.isDeckEmpty) {
     [sender setTitle:@"empty!" forState:UIControlStateNormal];
     [sender setEnabled:FALSE];
+    [self.startNewGameButton setEnabled:YES];
   }
 }
 
