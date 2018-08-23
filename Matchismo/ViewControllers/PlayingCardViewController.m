@@ -21,10 +21,15 @@
 }
 
 static const int defaultNumCards = 30;
+
+#pragma mark Initialization
+
 -(void)awakeFromNib {
   self.defaultInitialCardNumber = defaultNumCards;
   [super awakeFromNib];
 }
+
+#pragma mark  Subviews Manipulation
 
 - (void)createCardViews {
   for (NSInteger i = 0; i < self.game.cardCount; i++) {
@@ -54,6 +59,17 @@ static const int defaultNumCards = 30;
   }
 }
 
+#pragma mark  User Interactions
+
+- (void)resetGame {
+  self.chosenCardViews = [[NSMutableArray<PlayingCardView *> alloc] init];
+  [self animateRemovingCards:self.backgroundView.subviews];
+  self.game = [[CardMatchingGame alloc] initWithCardCount:self.defaultInitialCardNumber usingDeck:[self createDeck] usingGameMode:2];
+  self.scorelabel.text = [NSString stringWithFormat:@"Score: %lli",
+                          (long long)self.game.score];
+  [self createCardsOutOfView];
+}
+
 - (IBAction)tapOnCard:(UITapGestureRecognizer *)sender {
   if (self.piled) {
     [super tapOnCard:sender];
@@ -68,11 +84,11 @@ static const int defaultNumCards = 30;
       [(PlayingCardView *)tappedView setFaceUp:YES];
     } completion:^(BOOL finished){
     }];
-    [self touchCard:tappedView];
+    [self touchCardActions:tappedView];
   }
 }
 
-- (void)touchCard:(UIView *)tappedCardView {
+- (void)touchCardActions:(UIView *)tappedCardView {
   NSUInteger chosenViewIndex = [self.backgroundView.subviews indexOfObject:tappedCardView];
   BOOL match = [self.game chooseCardAndCheckMatchAtIndex:chosenViewIndex];
   if (match) {
@@ -99,7 +115,6 @@ static const int defaultNumCards = 30;
                           (long long)self.game.score];
 }
 
-
 - (void)matchActions {
   
   for (PlayingCardView *cardView in self.chosenCardViews) {
@@ -116,6 +131,8 @@ static const int defaultNumCards = 30;
                    }];
   [self.chosenCardViews removeAllObjects];
 }
+
+#pragma mark Helpers
 
 - (void)unchooseAllChosen {
   PlayingCardView *lastClickedCardView;
@@ -137,14 +154,7 @@ static const int defaultNumCards = 30;
   [self.chosenCardViews addObject:lastClickedCardView];
 }
 
-- (void)resetGame {
-  self.chosenCardViews = [[NSMutableArray<PlayingCardView *> alloc] init];
-  [self animateRemovingCards:self.backgroundView.subviews];
-  self.game = [[CardMatchingGame alloc] initWithCardCount:self.defaultInitialCardNumber usingDeck:[self createDeck] usingGameMode:2];
-  self.scorelabel.text = [NSString stringWithFormat:@"Score: %lli",
-                          (long long)self.game.score];
-  [self createCardsOutOfView];
-}
+
 
 
 

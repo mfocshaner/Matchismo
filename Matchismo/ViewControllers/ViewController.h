@@ -28,9 +28,15 @@
 @property (nonatomic) NSInteger defaultInitialCardNumber;
 @property (nonatomic, strong) NSMutableArray <UIView *> *chosenCardViews;
 
+@property (strong, nonatomic) IBOutlet UIPinchGestureRecognizer *pinchRecognizer;
+@property (strong, nonatomic) IBOutlet UIPanGestureRecognizer *panRecognizer;
+
+
 @property (nonatomic, strong) NSUUID *uuid;
 
 @property (nonatomic, getter=isPiled) BOOL piled;
+@property (nonatomic, getter=isAddingNewCards) BOOL addingNewCards;
+
 
 - (Deck *)createDeck;
 - (void)animateRemovingCards:(NSArray *)cardsToRemove;

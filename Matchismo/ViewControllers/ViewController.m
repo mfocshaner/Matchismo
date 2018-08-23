@@ -11,8 +11,7 @@
 
 @interface ViewController ()
 
-@property (strong, nonatomic) IBOutlet UIPinchGestureRecognizer *pinchRecognizer;
-@property (strong, nonatomic) IBOutlet UIPanGestureRecognizer *panRecognizer;
+
 
 @property (strong, nonatomic) UIDynamicAnimator *animator;
 @property (strong, nonatomic) UIAttachmentBehavior *attachment;
@@ -26,6 +25,8 @@
 static const int DEFAULT_MODE = 2;
 static int gameMode = DEFAULT_MODE;
 static const int DEFAULT_INIT_CARDS = 30;
+
+#pragma mark  Initialization
 
 #define DEFAULT_INITIAL_CARD_COUNT 30
 - (void)awakeFromNib {
@@ -43,7 +44,8 @@ static const int DEFAULT_INIT_CARDS = 30;
     CGPoint screenCenter = CGPointMake(self.view.bounds.size.width / 2,
                                        self.view.bounds.size.height / 2);
     [UIView animateWithDuration:0.5 animations:^{
-      self.backgroundView.subviews.lastObject.center = screenCenter;
+//      self.backgroundView.subviews.lastObject.center = screenCenter;
+      [self pileUpAllViews:screenCenter withAnimation:YES];
     }];
     self.attachment.anchorPoint = screenCenter;
     return;
@@ -63,7 +65,7 @@ static const int DEFAULT_INIT_CARDS = 30;
   [self createCardViews];
 }
 
-#pragma mark View manipulation
+#pragma mark Subviews Manipulation
 
 - (void)createCardViews {
   for (NSInteger i = 0; i < self.game.cardCount; i++) {
@@ -108,9 +110,6 @@ static const int DEFAULT_INIT_CARDS = 30;
                    }];
 }
 
-
-
-
 #pragma mark Pinching
 
 - (void)initRecognizersAndAnimator {
@@ -122,55 +121,37 @@ static const int DEFAULT_INIT_CARDS = 30;
 }
 
 - (IBAction)userPinched:(UIPinchGestureRecognizer *)sender {
-  if (self.piled) {
+  if (self.piled || self.addingNewCards) {
     return;
   }
   [self disableButtons];
-  if (sender.state == UIGestureRecognizerStateEnded){
-    CGPoint gesturePoint = [sender locationInView:self.view];
-    UIView *lastView = self.backgroundView.subviews.lastObject;
-    self.attachment = [[UIAttachmentBehavior alloc] initWithItem:lastView attachedToAnchor:gesturePoint];
-    for (int i = 0; i < self.backgroundView.subviews.count; i++) {
-      CardView *view = (CardView *)self.backgroundView.subviews[i];
-
-      [UIView animateWithDuration:0.4 animations:^{
-        view.center = gesturePoint;
-      } completion:^(BOOL finished) {
-        if ([view isEqual:lastView]) {
-          return;
-        }
-        CardView *viewToAttach = (CardView *)self.backgroundView.subviews[i+1];
-//        UIAttachmentBehavior *viewAttachment = [[UIAttachmentBehavior alloc]  initWithItem:view attachedToItem:viewToAttach];
-        UIAttachmentBehavior *viewAttachment = [UIAttachmentBehavior fixedAttachmentWithItem:lastView attachedToItem:view attachmentAnchor:gesturePoint];
-        [viewAttachment setDamping:0.0];
-//        [viewAttachment setLength:0];
-        //        [view setAttachment:viewAttachment];
-        [self.animator addBehavior:viewAttachment];
-      }
-       ];
-      
-    }
-    
-    [self.animator addBehavior:self.attachment];
-    self.piled = YES;
-  }
+  CGPoint center = [sender locationInView:self.view];
+  [self pileUpAllViews:center withAnimation:YES];
+  self.piled = YES;
 }
 
 - (IBAction)panAction:(UIPanGestureRecognizer *)sender {
-  if (self.animator.behaviors.count){
-    if (sender.state == UIGestureRecognizerStateBegan){
-      CGPoint gesturePoint = [sender locationInView:self.view];
-    self.attachment.anchorPoint = gesturePoint;
-    }
+  if (self.addingNewCards) {
+    return;
+  }
+  CGPoint center = [sender locationInView:self.view];
+  [self pileUpAllViews:center withAnimation:NO];
+  }
 
-    else if (sender.state == UIGestureRecognizerStateChanged){
-    CGPoint gesturePoint = [sender locationInView:self.view];
-    self.attachment.anchorPoint = gesturePoint;
+- (void)pileUpAllViews:(CGPoint)center withAnimation:(BOOL)animate {
+  for (CardView *view in self.backgroundView.subviews) {
+    center = CGPointMake(center.x - 1, center.y - 2);
+    if (animate) {
+    [UIView animateWithDuration:0.4 animations:^{
+      view.center = center;
+    }];}
+    else {
+      view.center = center;
     }
-    else if (sender.state == UIGestureRecognizerStateEnded){
     }
   }
-}
+
+#pragma mark User Interactions
 
 - (IBAction)tapOnCard:(UITapGestureRecognizer *)sender {
   if (!self.piled) {
@@ -186,12 +167,17 @@ static const int DEFAULT_INIT_CARDS = 30;
 }
 }
 
-
-
-
 - (IBAction)touchStartNewGameButton:(UIButton *)sender {
   sender.enabled = NO;
   [self resetGame];
+}
+
+- (void)resetGame{
+  self.chosenCardViews = [[NSMutableArray alloc] init];
+  [self animateRemovingCards:self.backgroundView.subviews];
+  _game = [[CardMatchingGame alloc] initWithCardCount:DEFAULT_INIT_CARDS usingDeck:[self createDeck] usingGameMode:gameMode];
+  self.scorelabel.text = [NSString stringWithFormat:@"Score: %lli",
+                          (long long)self.game.score];
 }
 
 - (void)enableButtons {
@@ -202,6 +188,8 @@ static const int DEFAULT_INIT_CARDS = 30;
   [self.startNewGameButton setEnabled:NO];
 }
 
+#pragma mark Game properties
+
 - (CardMatchingGame *)game{
   if (!_game) {[self resetGame];};
   return _game;
@@ -209,14 +197,6 @@ static const int DEFAULT_INIT_CARDS = 30;
 
 - (void)initGame {
   _game = [[CardMatchingGame alloc] initWithCardCount:self.defaultInitialCardNumber usingDeck:[self createDeck] usingGameMode:gameMode];
-}
-
-- (void)resetGame{
-  self.chosenCardViews = [[NSMutableArray alloc] init];
-  [self animateRemovingCards:self.backgroundView.subviews];
-  _game = [[CardMatchingGame alloc] initWithCardCount:DEFAULT_INIT_CARDS usingDeck:[self createDeck] usingGameMode:gameMode];
-  self.scorelabel.text = [NSString stringWithFormat:@"Score: %lli",
-                          (long long)self.game.score];
 }
 
 - (Deck *)createDeck{

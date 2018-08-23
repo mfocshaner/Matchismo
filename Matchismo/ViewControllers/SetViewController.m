@@ -24,6 +24,8 @@
 static int gameMode = 0;
 static const int DEFAULT_INIT_CARDS = 18;
 
+#pragma mark Initialization
+
 -(void)awakeFromNib {
   self.defaultInitialCardNumber = DEFAULT_INIT_CARDS;
   [super awakeFromNib];
@@ -38,7 +40,7 @@ static const int DEFAULT_INIT_CARDS = 18;
   return [[SetDeck alloc] init];
 }
 
-#pragma mark Views Management
+#pragma mark Subviews Manipulation
 
 - (void)createCardViews {
   for (NSInteger i = 0; i < self.game.cardCount; i++) {
@@ -95,6 +97,7 @@ static const int DEFAULT_INIT_CARDS = 18;
       } completion:^(BOOL finished){
         if (i == newCount - 1) {
           [self enableButtons];
+          [self setAddingNewCards:NO];
         }
       }
        ];
@@ -102,9 +105,7 @@ static const int DEFAULT_INIT_CARDS = 18;
   }
 }
 
-
-
-#pragma mark Buttons
+#pragma mark Button User Interactions
 
 - (IBAction)touchStartNewGameButton:(UIButton *)sender {
   sender.enabled = NO;
@@ -112,8 +113,18 @@ static const int DEFAULT_INIT_CARDS = 18;
   [self resetGame];
 }
 
+- (void)resetGame {
+  self.chosenCardViews = [[NSMutableArray<SetCardView *> alloc] init];
+  [self animateRemovingCards:self.backgroundView.subviews];
+  self.game = [[SetGame alloc] initWithCardCount: DEFAULT_INIT_CARDS usingDeck:[self createDeck] usingGameMode:gameMode];
+  self.scorelabel.text = [NSString stringWithFormat:@"Score: %lli",
+                          (long long)self.game.score];
+  [self createCardsOutOfView];
+}
+
 #define NUMBER_OF_CARDS_TO_ADD 3
 - (IBAction)hitMePressed:(UIButton *)sender {
+  [self setAddingNewCards:YES]; // in order to ignore pinch gesture
   [self.startNewGameButton setEnabled:NO];
   [sender setEnabled:NO];
   [self insertNewCards:NUMBER_OF_CARDS_TO_ADD];
@@ -121,6 +132,7 @@ static const int DEFAULT_INIT_CARDS = 18;
     [sender setTitle:@"empty!" forState:UIControlStateNormal];
     [sender setEnabled:FALSE];
     [self.startNewGameButton setEnabled:YES];
+    [self setAddingNewCards:NO];
   }
 }
 
@@ -138,7 +150,7 @@ static const int DEFAULT_INIT_CARDS = 18;
 }
 
 
-#pragma mark Card Interactions
+#pragma mark Card User Interactions
 
 - (IBAction)tapOnCard:(UITapGestureRecognizer *)sender {
   if (self.piled) {
@@ -152,11 +164,11 @@ static const int DEFAULT_INIT_CARDS = 18;
                          animations:^{
                            tappedView.transform = CGAffineTransformMakeScale(1.05, 1.05);
                          }];
-    [self touchCard:tappedView];
+    [self touchCardActions:tappedView];
   }
 }
 
-- (void)touchCard:(UIView *)tappedCardView {
+- (void)touchCardActions:(UIView *)tappedCardView {
   NSUInteger chosenViewIndex = [self.backgroundView.subviews indexOfObject:tappedCardView];
   BOOL match = [self.game chooseCardAndCheckMatchAtIndex:chosenViewIndex];
   if (match) {
@@ -189,7 +201,6 @@ static const int DEFAULT_INIT_CARDS = 18;
 - (void)matchActions {
   NSMutableArray *cardsToRemoveFromGame = [[NSMutableArray alloc] init];
   
-  NSUInteger viewsCount = self.backgroundView.subviews.count;
   for (SetCardView *cardView in self.chosenCardViews) {
     NSUInteger viewIndex = [self.backgroundView.subviews indexOfObject:cardView];
     [cardsToRemoveFromGame addObject:[self.game cardAtIndex:viewIndex]];
@@ -227,22 +238,11 @@ static const int DEFAULT_INIT_CARDS = 18;
                                           cardView.transform = CGAffineTransformIdentity;
                                         }];
                      }];
-    [(SetCardView *)cardView setStrokeColor:[UIColor blackColor]];
     NSUInteger chosenViewIndex = [self.backgroundView.subviews indexOfObject:cardView];
     [self.game cardAtIndex:chosenViewIndex].chosen = NO;
   }
   [self.chosenCardViews removeAllObjects];
 }
-
-- (void)resetGame {
-  self.chosenCardViews = [[NSMutableArray<SetCardView *> alloc] init];
-  [self animateRemovingCards:self.backgroundView.subviews];
-  self.game = [[SetGame alloc] initWithCardCount: DEFAULT_INIT_CARDS usingDeck:[self createDeck] usingGameMode:gameMode];
-  self.scorelabel.text = [NSString stringWithFormat:@"Score: %lli",
-                          (long long)self.game.score];
-  [self createCardsOutOfView];
-}
-
 
 
 @end
