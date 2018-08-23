@@ -48,12 +48,12 @@
                                 <gestureRecognizers/>
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="aux-3x-fIr" appends="YES" id="Gdi-tD-eYj"/>
-                                    <outletCollection property="gestureRecognizers" destination="nUE-ay-WaL" appends="YES" id="str-ay-EGl"/>
                                     <outletCollection property="gestureRecognizers" destination="yqQ-cB-2Co" appends="YES" id="pm7-I7-2ta"/>
                                 </connections>
                             </view>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.56284224989999998" blue="0.31881666180000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="oa5-7x-xgb" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="ELj-9M-2Bf"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="oa5-7x-xgb" secondAttribute="trailing" constant="20" id="KO8-LP-cqO"/>
@@ -61,6 +61,9 @@
                             <constraint firstItem="Loc-2a-3N6" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="20" id="wbL-P3-igD"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="nUE-ay-WaL" appends="YES" id="e3k-hS-QH5"/>
+                        </connections>
                     </view>
                     <tabBarItem key="tabBarItem" title="Matchismo" id="o46-Rw-W6q"/>
                     <navigationItem key="navigationItem" id="29m-DG-iew"/>
@@ -78,16 +81,16 @@
                         <action selector="tapOnCard:" destination="BYZ-38-t0r" id="emd-Vd-xrY"/>
                     </connections>
                 </tapGestureRecognizer>
-                <panGestureRecognizer minimumNumberOfTouches="1" id="nUE-ay-WaL">
-                    <connections>
-                        <action selector="panAction:" destination="BYZ-38-t0r" id="nN1-yk-43q"/>
-                    </connections>
-                </panGestureRecognizer>
                 <pinchGestureRecognizer id="yqQ-cB-2Co">
                     <connections>
                         <action selector="userPinched:" destination="BYZ-38-t0r" id="aEk-kt-nSU"/>
                     </connections>
                 </pinchGestureRecognizer>
+                <panGestureRecognizer minimumNumberOfTouches="1" id="nUE-ay-WaL">
+                    <connections>
+                        <action selector="panAction:" destination="BYZ-38-t0r" id="nN1-yk-43q"/>
+                    </connections>
+                </panGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="-786.95652173913049" y="-165.48913043478262"/>
         </scene>
@@ -131,7 +134,6 @@
                                 <connections>
                                     <outletCollection property="gestureRecognizers" destination="UIJ-8f-DhD" appends="YES" id="k27-nS-KiJ"/>
                                     <outletCollection property="gestureRecognizers" destination="1Ua-wC-7hG" appends="YES" id="htM-Ir-Kt5"/>
-                                    <outletCollection property="gestureRecognizers" destination="xdN-5n-3DZ" appends="YES" id="scQ-St-NOP"/>
                                 </connections>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eih-Ad-k1i">
@@ -164,6 +166,7 @@
                             </button>
                         </subviews>
                         <color key="backgroundColor" red="0.0" green="0.56284224989999998" blue="0.31881666180000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <gestureRecognizers/>
                         <constraints>
                             <constraint firstItem="LEz-ly-0oR" firstAttribute="trailing" secondItem="AJS-GE-JVM" secondAttribute="trailing" id="2mE-wW-SHv"/>
                             <constraint firstItem="eih-Ad-k1i" firstAttribute="centerX" secondItem="AJS-GE-JVM" secondAttribute="centerX" id="GX3-Ne-eiM"/>
@@ -173,6 +176,9 @@
                             <constraint firstItem="pXY-6B-TDR" firstAttribute="leading" secondItem="AJS-GE-JVM" secondAttribute="leading" constant="20" id="zQe-wg-VYc"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="AJS-GE-JVM"/>
+                        <connections>
+                            <outletCollection property="gestureRecognizers" destination="xdN-5n-3DZ" appends="YES" id="evs-oM-2BV"/>
+                        </connections>
                     </view>
                     <tabBarItem key="tabBarItem" title="Set" id="9yb-2k-ZUd"/>
                     <navigationItem key="navigationItem" id="Jf8-vd-hPd"/>

@@ -132,6 +132,10 @@ static const int DEFAULT_INIT_CARDS = 18;
   }
 }
 
+- (void)disableButtons {
+  [self.startNewGameButton setEnabled:NO];
+  [self.hitMeButton setEnabled:NO];
+}
 
 
 #pragma mark Card Interactions

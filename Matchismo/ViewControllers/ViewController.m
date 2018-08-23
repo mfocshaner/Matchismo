@@ -27,13 +27,43 @@ static const int DEFAULT_MODE = 2;
 static int gameMode = DEFAULT_MODE;
 static const int DEFAULT_INIT_CARDS = 30;
 
+#define DEFAULT_INITIAL_CARD_COUNT 30
+- (void)awakeFromNib {
+  [super awakeFromNib];
+  _game = [[CardMatchingGame alloc] initWithCardCount:self.defaultInitialCardNumber usingDeck:[self createDeck] usingGameMode:gameMode];
+  _grid = [[Grid alloc] init];
+  _cardViewsToRemove = [[NSMutableArray alloc] init];
+  _chosenCardViews = [[NSMutableArray alloc] init];
+  [self initRecognizersAndAnimator];
+}
+
+- (void)viewWillLayoutSubviews {
+  [super viewWillLayoutSubviews];
+  if (self.piled) {
+    CGPoint screenCenter = CGPointMake(self.view.bounds.size.width / 2,
+                                       self.view.bounds.size.height / 2);
+    [UIView animateWithDuration:0.5 animations:^{
+      self.backgroundView.subviews.lastObject.center = screenCenter;
+    }];
+    self.attachment.anchorPoint = screenCenter;
+    return;
+  }
+  if (self.backgroundView) {
+    [self reorganizeCardViews:self.backgroundView.subviews.count];
+  } else {
+    [self reorganizeCardViews:self.defaultInitialCardNumber];
+  }
+}
+
 - (void)viewDidLoad {
   [super viewDidLoad];
   [self initGame];
-  [[self backgroundView] init];
+  [self.backgroundView init];
   [self setGridBounds:self.defaultInitialCardNumber];
   [self createCardViews];
 }
+
+#pragma mark View manipulation
 
 - (void)createCardViews {
   for (NSInteger i = 0; i < self.game.cardCount; i++) {
@@ -43,15 +73,6 @@ static const int DEFAULT_INIT_CARDS = 30;
     [createdCardView setBackgroundColor:[UIColor clearColor]];
     [createdCardView setUserInteractionEnabled:YES];
     [self.backgroundView addSubview:createdCardView];
-  }
-}
-
-- (void)viewWillLayoutSubviews {
-  [super viewWillLayoutSubviews];
-  if (self.backgroundView) {
-    [self reorganizeCardViews:self.backgroundView.subviews.count];
-  } else {
-    [self reorganizeCardViews:self.defaultInitialCardNumber];
   }
 }
 
@@ -87,19 +108,8 @@ static const int DEFAULT_INIT_CARDS = 30;
                    }];
 }
 
-- (void)enableButtons {
-  [self.startNewGameButton setEnabled:YES];
-}
 
-#define DEFAULT_INITIAL_CARD_COUNT 30
-- (void)awakeFromNib {
-  [super awakeFromNib];
-  _game = [[CardMatchingGame alloc] initWithCardCount:self.defaultInitialCardNumber usingDeck:[self createDeck] usingGameMode:gameMode];
-  _grid = [[Grid alloc] init];
-  _cardViewsToRemove = [[NSMutableArray alloc] init];
-  _chosenCardViews = [[NSMutableArray alloc] init];
-  [self initRecognizersAndAnimator];
-}
+
 
 #pragma mark Pinching
 
@@ -115,23 +125,27 @@ static const int DEFAULT_INIT_CARDS = 30;
   if (self.piled) {
     return;
   }
+  [self disableButtons];
   if (sender.state == UIGestureRecognizerStateEnded){
     CGPoint gesturePoint = [sender locationInView:self.view];
     UIView *lastView = self.backgroundView.subviews.lastObject;
-self.attachment = [[UIAttachmentBehavior alloc] initWithItem:lastView attachedToAnchor:gesturePoint];
+    self.attachment = [[UIAttachmentBehavior alloc] initWithItem:lastView attachedToAnchor:gesturePoint];
     for (int i = 0; i < self.backgroundView.subviews.count; i++) {
       CardView *view = (CardView *)self.backgroundView.subviews[i];
 
-      [UIView animateWithDuration:0.3 animations:^{
+      [UIView animateWithDuration:0.4 animations:^{
         view.center = gesturePoint;
       } completion:^(BOOL finished) {
-        if (i == self.backgroundView.subviews.count - 1) {
+        if ([view isEqual:lastView]) {
           return;
         }
         CardView *viewToAttach = (CardView *)self.backgroundView.subviews[i+1];
-        [view setAttachment:[[UIAttachmentBehavior alloc] initWithItem:view attachedToItem:viewToAttach]];
-        //view.attachment.attachedBehaviorType = [UIAttachmentBehavior Attachment
-        [self.animator addBehavior:view.attachment];
+//        UIAttachmentBehavior *viewAttachment = [[UIAttachmentBehavior alloc]  initWithItem:view attachedToItem:viewToAttach];
+        UIAttachmentBehavior *viewAttachment = [UIAttachmentBehavior fixedAttachmentWithItem:lastView attachedToItem:view attachmentAnchor:gesturePoint];
+        [viewAttachment setDamping:0.0];
+//        [viewAttachment setLength:0];
+        //        [view setAttachment:viewAttachment];
+        [self.animator addBehavior:viewAttachment];
       }
        ];
       
@@ -146,31 +160,14 @@ self.attachment = [[UIAttachmentBehavior alloc] initWithItem:lastView attachedTo
   if (self.animator.behaviors.count){
     if (sender.state == UIGestureRecognizerStateBegan){
       CGPoint gesturePoint = [sender locationInView:self.view];
-//      for (UIView *cardView in self.backgroundView.subviews) {
-//        [UIView animateWithDuration:0.4
-//                              animations:^{
-//                           cardView.center = gesturePoint;
-//                         }
-//         ];
-//      }
-      
-//      lastView.attachment.anchorPoint = gesturePoint;
-
-      CardView *lastView = self.backgroundView.subviews.lastObject;
-            [UIView animateWithDuration:0.3
-                       animations:^{
-                         lastView.center = gesturePoint;
-                       }];
+    self.attachment.anchorPoint = gesturePoint;
     }
+
     else if (sender.state == UIGestureRecognizerStateChanged){
     CGPoint gesturePoint = [sender locationInView:self.view];
     self.attachment.anchorPoint = gesturePoint;
-      for (UIView *cardView in self.backgroundView.subviews) {
-        [[(CardView *)cardView attachment] setAnchorPoint:gesturePoint];
-      }
     }
     else if (sender.state == UIGestureRecognizerStateEnded){
-      // [self.animator removeBehavior:_attachment];
     }
   }
 }
@@ -178,7 +175,7 @@ self.attachment = [[UIAttachmentBehavior alloc] initWithItem:lastView attachedTo
 - (IBAction)tapOnCard:(UITapGestureRecognizer *)sender {
   if (!self.piled) {
     return;
-  } else {
+  } else { // this method is actually used when subclass calls it to handle piling
     CGPoint tapLocation = ([sender locationInView:self.backgroundView]);
     UIView *tappedView = [self.backgroundView hitTest:tapLocation withEvent:nil];
     if (tappedView == self.backgroundView.subviews.lastObject) {
@@ -190,14 +187,24 @@ self.attachment = [[UIAttachmentBehavior alloc] initWithItem:lastView attachedTo
 }
 
 
-- (CardMatchingGame *)game{
-  if (!_game) {[self resetGame];};
-    return _game;
-}
+
 
 - (IBAction)touchStartNewGameButton:(UIButton *)sender {
   sender.enabled = NO;
   [self resetGame];
+}
+
+- (void)enableButtons {
+  [self.startNewGameButton setEnabled:YES];
+}
+
+- (void)disableButtons {
+  [self.startNewGameButton setEnabled:NO];
+}
+
+- (CardMatchingGame *)game{
+  if (!_game) {[self resetGame];};
+  return _game;
 }
 
 - (void)initGame {
@@ -216,16 +223,16 @@ self.attachment = [[UIAttachmentBehavior alloc] initWithItem:lastView attachedTo
   return nil; //abstract!
 }
 
+- (Grid *)grid {
+  if (!_grid) _grid = [[Grid alloc] init];
+  return _grid;
+}
+
 - (void)setGridBounds:(NSUInteger)numCards {
   _grid.size = CGSizeMake(self.backgroundView.bounds.size.width, self.backgroundView.bounds.size.height);
   _grid.cellAspectRatio = 0.6;
   _grid.minimumNumberOfCells = numCards;
   assert(_grid.inputsAreValid);
-}
-
-- (Grid *)grid {
-  if (!_grid) _grid = [[Grid alloc] init];
-  return _grid;
 }
 
 
